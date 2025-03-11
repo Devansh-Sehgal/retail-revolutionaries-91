@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react';
 const HeroSection = () => {
   const heroRef = useRef(null);
   const bgRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -16,6 +17,11 @@ const HeroSection = () => {
       const y = (clientY - top) / height;
       
       bgRef.current.style.transform = `translate(${x * 20 - 10}px, ${y * 20 - 10}px)`;
+      
+      // Add subtle tilt effect to the image
+      if (imageRef.current) {
+        imageRef.current.style.transform = `perspective(1000px) rotateY(${(x - 0.5) * 5}deg) rotateX(${(y - 0.5) * -5}deg)`;
+      }
     };
 
     const heroElement = heroRef.current;
@@ -74,8 +80,8 @@ const HeroSection = () => {
           </div>
           
           <div className="relative animate-fade-up" style={{ animationDelay: '0.3s' }}>
-            <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-1 hover-clip-circle">
-              <div className="absolute inset-0 clip-circle bg-gradient-to-br from-blue-500 via-primary to-violet-600"></div>
+            <div ref={imageRef} className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-primary to-violet-600 opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
               <img 
                 src="https://images.unsplash.com/photo-1664575198308-3959904fa430?q=80&w=2070&auto=format&fit=crop" 
                 alt="Retail inventory management dashboard" 

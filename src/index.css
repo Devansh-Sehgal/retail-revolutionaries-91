@@ -188,3 +188,9 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Animations for the scrolling testimonials */
+@keyframes scroll-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
