@@ -9,6 +9,7 @@ import ClientsSection from '../components/ClientsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import StatsSection from '../components/StatsSection';
 import Footer from '../components/Footer';
+import { ThemeProvider } from '../hooks/useTheme';
 
 const Home = () => {
   useEffect(() => {
@@ -37,19 +38,21 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-grow">
-        <HeroSection />
-        <StatsSection />
-        <ServicesSection />
-        <SolutionsSection />
-        <ProductsSection />
-        <ClientsSection />
-        <TestimonialsSection />
-      </main>
-      <Footer />
-    </div>
+    <ThemeProvider>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow">
+          <HeroSection />
+          <StatsSection />
+          <ServicesSection />
+          <SolutionsSection />
+          <ProductsSection />
+          <ClientsSection />
+          <TestimonialsSection />
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 };
 
