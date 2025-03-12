@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
@@ -9,6 +8,7 @@ import ClientsSection from '../components/ClientsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import StatsSection from '../components/StatsSection';
 import Footer from '../components/Footer';
+import Newsletter from '../components/Newsletter';
 import { ThemeProvider } from '../hooks/useTheme.jsx';
 
 const Index = () => {
@@ -49,6 +49,7 @@ const Index = () => {
           <ProductsSection />
           <ClientsSection />
           <TestimonialsSection />
+          <Newsletter />
         </main>
         <Footer />
       </div>

@@ -8,7 +8,7 @@ const HeroSection = () => {
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (!bgRef.current) return;
+      if (!bgRef.current || !imageRef.current) return;
       
       const { clientX, clientY } = e;
       const { width, height, left, top } = heroRef.current.getBoundingClientRect();
@@ -16,23 +16,38 @@ const HeroSection = () => {
       const x = (clientX - left) / width;
       const y = (clientY - top) / height;
       
-      bgRef.current.style.transform = `translate(${x * 20 - 10}px, ${y * 20 - 10}px)`;
+      // Enhanced background movement
+      bgRef.current.style.transform = `translate(${x * 30 - 15}px, ${y * 30 - 15}px) rotate(${x * 5}deg)`;
       
-      // Add subtle tilt effect to the image
-      if (imageRef.current) {
-        imageRef.current.style.transform = `perspective(1000px) rotateY(${(x - 0.5) * 5}deg) rotateX(${(y - 0.5) * -5}deg)`;
-      }
+      // Enhanced image tilt with subtle zoom
+      imageRef.current.style.transform = `
+        perspective(2000px) 
+        rotateY(${(x - 0.5) * 15}deg) 
+        rotateX(${(y - 0.5) * -15}deg) 
+        scale(${1 + Math.abs(x - 0.5) * 0.05})
+        translateZ(50px)
+      `;
+    };
+
+    const handleMouseLeave = () => {
+      if (!bgRef.current || !imageRef.current) return;
+      
+      // Smooth reset animation
+      bgRef.current.style.transform = 'translate(0, 0) rotate(0deg)';
+      imageRef.current.style.transform = 'perspective(2000px) rotateY(0) rotateX(0) scale(1) translateZ(0)';
     };
 
     const heroElement = heroRef.current;
     
     if (heroElement) {
       heroElement.addEventListener('mousemove', handleMouseMove);
+      heroElement.addEventListener('mouseleave', handleMouseLeave);
     }
     
     return () => {
       if (heroElement) {
         heroElement.removeEventListener('mousemove', handleMouseMove);
+        heroElement.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, []);
