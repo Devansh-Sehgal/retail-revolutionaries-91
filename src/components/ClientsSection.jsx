@@ -2,36 +2,49 @@
 import ClientCard from './ClientCard';
 
 const ClientsSection = () => {
+
   const clients = [
     {
-      logo: "https://via.placeholder.com/180x80?text=FashionCo",
-      name: "FashionCo",
-      description: "Leading apparel manufacturer implemented our inventory system across 120 global stores."
+      name: "FashionForward",
+      logo: "FF",
+      description: "Leading fashion retailer with 50+ stores nationwide using our inventory solutions since 2019.",
+      industry: "Fashion Retail",
+      image: "/clients/fashion-forward.jpg"
     },
     {
-      logo: "https://via.placeholder.com/180x80?text=TrendMart",
-      name: "TrendMart",
-      description: "Lifestyle retailer that cut inventory costs by 25% with our optimization algorithms."
+      name: "Market Fresh",
+      logo: "MF",
+      description: "Regional supermarket chain that reduced waste by 35% using our forecasting tools.",
+      industry: "Supermarkets",
+      image: "/clients/market-fresh.jpg"
     },
     {
-      logo: "https://via.placeholder.com/180x80?text=QuickGrocer",
-      name: "QuickGrocer",
-      description: "Supermarket chain that reduced spoilage by 30% using our forecasting tools."
+      name: "Urban Essentials",
+      logo: "UE",
+      description: "Fast-growing D2C brand managing multiple product lines across e-commerce channels.",
+      industry: "D2C Brands",
+      image: "/clients/urban-essentials.jpg"
     },
     {
-      logo: "https://via.placeholder.com/180x80?text=StyleDirect",
-      name: "StyleDirect",
-      description: "D2C fashion brand that scaled fulfillment operations 3x without adding staff."
+      name: "StyleHub",
+      logo: "SH",
+      description: "Fashion distributor handling 200+ brands using our warehouse management solutions.",
+      industry: "Fashion Distribution",
+      image: "/clients/style-hub.jpg"
     },
     {
-      logo: "https://via.placeholder.com/180x80?text=LuxuryOne",
-      name: "LuxuryOne",
-      description: "Premium retailer using our omnichannel inventory to power personalized shopping."
+      name: "LuxeLifestyle",
+      logo: "LL",
+      description: "Premium lifestyle brand that improved inventory turns by 40% with our platform.",
+      industry: "Lifestyle Brands",
+      image: "/clients/luxe-lifestyle.jpg"
     },
     {
-      logo: "https://via.placeholder.com/180x80?text=MegaShop",
-      name: "MegaShop",
-      description: "Multi-category retailer that unified inventory across 50+ departments and 200 stores."
+      name: "Craft Manufacturing",
+      logo: "CM",
+      description: "Specialty manufacturer using our solutions to optimize production scheduling and materials.",
+      industry: "Manufacturing",
+      image: "/clients/craft-manufacturing.jpg"
     }
   ];
 
@@ -44,12 +57,12 @@ const ClientsSection = () => {
             Trusted by leading retailers and brands worldwide to transform their inventory operations.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {clients.map((client, index) => (
-            <div 
+            <div
               key={index}
-              className="animate-fade-up" 
+              className="animate-fade-up"
               style={{ animationDelay: `${0.1 + index * 0.1}s` }}
             >
               <ClientCard {...client} />
