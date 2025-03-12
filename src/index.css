@@ -194,3 +194,242 @@
   from { transform: translateY(0); }
   to { transform: translateY(-100%); }
 }
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 210 100% 35%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 196 80% 40%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 84% 5%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 100% 52%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 196 80% 40%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 213 27% 84%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+  
+  .card-flip {
+    @apply perspective-1000 relative;
+  }
+  
+  .card-flip-inner {
+    @apply relative w-full h-full transition-transform duration-500 transform-style-3d;
+  }
+  
+  .card-flip-front,
+  .card-flip-back {
+    @apply absolute w-full h-full backface-hidden;
+  }
+  
+  .card-flip-back {
+    @apply transform rotateY-180;
+  }
+  
+  .card-flip.flipped .card-flip-inner {
+    @apply transform rotateY-180;
+  }
+  
+  .masonry-container {
+    @apply column-1 sm:column-2 lg:column-3 gap-4;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.transform.rotateY-180 {
+  transform: rotateY(180deg);
+}
+
+.testimonial-container {
+  overflow: hidden;
+  position: relative;
+  height: 600px;
+}
+
+.testimonial-scroller {
+  position: absolute;
+  width: 100%;
+  animation: scroll-testimonials 40s linear infinite;
+}
+
+.testimonial-scroller:hover {
+  animation-play-state: paused;
+}
+
+.testimonial-item {
+  margin-bottom: 1rem;
+  transform: translateY(100%);
+  opacity: 0;
+  animation: testimonial-up 0.8s forwards;
+}
+
+.stats-scroller {
+  display: flex;
+  width: max-content;
+  animation: scroll-x 20s linear infinite;
+}
+
+.stats-scroller:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-testimonials {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes scroll-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes testimonial-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(10px);
+  }
+  50% {
+    transform: translateY(0) translateX(20px);
+  }
+  75% {
+    transform: translateY(10px) translateX(10px);
+  }
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes number-count {
+  from {
+    content: "0";
+  }
+  to {
+    content: attr(data-count);
+  }
+}
