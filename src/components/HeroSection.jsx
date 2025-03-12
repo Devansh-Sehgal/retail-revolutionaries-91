@@ -1,14 +1,13 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, Mouse } from 'lucide-react';
 
 const HeroSection = () => {
   const heroRef = useRef(null);
   const bgRef = useRef(null);
   const imageRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -26,15 +25,9 @@ const HeroSection = () => {
 
       bgRef.current.style.transform = `translate(${x * 20 - 10}px, ${y * 20 - 10}px)`;
 
-      // Enhanced tilt effect to the image when hovered
-      if (imageRef.current && isHovered) {
-        imageRef.current.style.transform = `
-          perspective(1000px) 
-          rotateY(${(x - 0.5) * 10}deg) 
-          rotateX(${(y - 0.5) * -10}deg)
-          scale(1.05)
-          translateZ(30px)
-        `;
+      // Add subtle tilt effect to the image
+      if (imageRef.current) {
+        imageRef.current.style.transform = `perspective(1000px) rotateY(${(x - 0.5) * 5}deg) rotateX(${(y - 0.5) * -5}deg)`;
       }
     };
 
@@ -49,7 +42,7 @@ const HeroSection = () => {
         heroElement.removeEventListener('mousemove', handleMouseMove);
       }
     };
-  }, [isHovered]);
+  }, []);
 
   return (
     <section
@@ -95,6 +88,20 @@ const HeroSection = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
               Streamline operations, boost efficiency, and make data-driven decisions with our comprehensive inventory management services tailored for modern retailers.
             </p>
+            {/* <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <a 
+                href="#services" 
+                className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors text-center"
+              >
+                Explore Solutions
+              </a>
+              <a 
+                href="#contact" 
+                className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/90 transition-colors text-center"
+              >
+                Book a Demo
+              </a>
+            </div> */}
             <div className="flex flex-wrap gap-4 pt-4 transition-all duration-1000 delay-500" style={{
               opacity: isLoaded ? 1 : 0,
               transform: isLoaded ? 'translateY(0)' : 'translateY(20px)'
@@ -107,24 +114,12 @@ const HeroSection = () => {
                 Learn More
               </Button>
             </div>
+
           </div>
 
-          <div 
-            className="relative animate-fade-up" 
-            style={{ animationDelay: '0.3s' }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => {
-              setIsHovered(false);
-              if (imageRef.current) {
-                imageRef.current.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1) translateZ(0px)';
-              }
-            }}
-          >
-            <div 
-              ref={imageRef} 
-              className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-1 transition-all duration-300"
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br from-blue-500 via-primary to-violet-600 opacity-0 transition-opacity duration-500 rounded-xl ${isHovered ? 'opacity-20' : ''}`}></div>
+          <div className="relative animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <div ref={imageRef} className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-primary to-violet-600 opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-xl"></div>
               <img
                 src="https://images.unsplash.com/photo-1664575198308-3959904fa430?q=80&w=2070&auto=format&fit=crop"
                 alt="Retail inventory management dashboard"
@@ -132,8 +127,8 @@ const HeroSection = () => {
               />
             </div>
 
-            <div className={`absolute -bottom-6 -right-6 w-24 h-24 bg-amber-400 rounded-full blur-xl opacity-60 animate-pulse ${isHovered ? 'scale-125' : ''} transition-transform duration-500`}></div>
-            <div className={`absolute -top-6 -left-6 w-32 h-32 bg-teal-400 rounded-full blur-xl opacity-60 animate-pulse ${isHovered ? 'scale-125' : ''} transition-transform duration-500`}></div>
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-amber-400 rounded-full blur-xl opacity-60 animate-pulse"></div>
+            <div className="absolute -top-6 -left-6 w-32 h-32 bg-teal-400 rounded-full blur-xl opacity-60 animate-pulse"></div>
           </div>
         </div>
       </div>
