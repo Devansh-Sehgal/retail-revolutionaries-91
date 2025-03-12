@@ -4,9 +4,12 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Mail, User, Building, MessageSquare } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 const Contact = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,6 +21,19 @@ const Contact = () => {
     e.preventDefault();
     // Handle form submission here
     console.log('Form submitted:', formData);
+    
+    toast({
+      title: "Message sent!",
+      description: "We'll get back to you as soon as possible.",
+    });
+    
+    // Reset form
+    setFormData({
+      name: '',
+      email: '',
+      company: '',
+      message: ''
+    });
   };
 
   const handleChange = (e) => {
