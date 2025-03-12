@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useTheme } from '../hooks/useTheme.jsx';
 import { Sun, Moon, Menu, X } from 'lucide-react';
@@ -24,9 +23,20 @@ const Navbar = () => {
   }, []);
 
   const getHref = (sectionId) => {
-    return location.pathname === '/contact' 
-      ? `/#${sectionId}` 
-      : `#${sectionId}`;
+    if (location.pathname === '/contact') {
+      return `/#${sectionId}`;
+    }
+    return `#${sectionId}`;
+  };
+
+  const handleNavClick = (e, sectionId) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   return (
@@ -41,12 +51,44 @@ const Navbar = () => {
         </Link>
         
         <div className="hidden md:flex items-center space-x-8">
-          <Link to={getHref('services')} className="text-foreground hover:text-primary transition-colors">Services</Link>
-          <Link to={getHref('solutions')} className="text-foreground hover:text-primary transition-colors">Solutions</Link>
-          <Link to={getHref('products')} className="text-foreground hover:text-primary transition-colors">Products</Link>
-          <Link to={getHref('clients')} className="text-foreground hover:text-primary transition-colors">Clients</Link>
-          <Link to={getHref('testimonials')} className="text-foreground hover:text-primary transition-colors">Testimonials</Link>
-          <Link to="/contact" className="text-foreground hover:text-primary transition-colors">Contact</Link>
+          <Link 
+            to={getHref('services')} 
+            onClick={(e) => handleNavClick(e, 'services')}
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Services
+          </Link>
+          <Link 
+            to={getHref('solutions')} 
+            onClick={(e) => handleNavClick(e, 'solutions')}
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Solutions
+          </Link>
+          <Link 
+            to={getHref('products')} 
+            onClick={(e) => handleNavClick(e, 'products')}
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Products
+          </Link>
+          <Link 
+            to={getHref('clients')} 
+            onClick={(e) => handleNavClick(e, 'clients')}
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Clients
+          </Link>
+          <Link 
+            to={getHref('testimonials')} 
+            onClick={(e) => handleNavClick(e, 'testimonials')}
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            Testimonials
+          </Link>
+          <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
+            Contact
+          </Link>
           <button 
             onClick={toggleTheme}
             className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
@@ -79,36 +121,36 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             <Link 
               to={getHref('services')}
+              onClick={(e) => { handleNavClick(e, 'services'); setIsMenuOpen(false); }}
               className="text-foreground hover:text-primary transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
             >
               Services
             </Link>
             <Link 
               to={getHref('solutions')} 
               className="text-foreground hover:text-primary transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => { handleNavClick(e, 'solutions'); setIsMenuOpen(false); }}
             >
               Solutions
             </Link>
             <Link 
               to={getHref('products')} 
               className="text-foreground hover:text-primary transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => { handleNavClick(e, 'products'); setIsMenuOpen(false); }}
             >
               Products
             </Link>
             <Link 
               to={getHref('clients')} 
               className="text-foreground hover:text-primary transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => { handleNavClick(e, 'clients'); setIsMenuOpen(false); }}
             >
               Clients
             </Link>
             <Link 
               to={getHref('testimonials')} 
               className="text-foreground hover:text-primary transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => { handleNavClick(e, 'testimonials'); setIsMenuOpen(false); }}
             >
               Testimonials
             </Link>

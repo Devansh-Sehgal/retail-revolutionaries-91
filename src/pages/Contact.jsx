@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +9,11 @@ const Contact = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   
+  useEffect(() => {
+    // Scroll to top when contact page loads
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

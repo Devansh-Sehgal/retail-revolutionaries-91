@@ -13,6 +13,15 @@ import { ThemeProvider } from '../hooks/useTheme.jsx';
 
 const Index = () => {
   useEffect(() => {
+    // Handle section scrolling when page loads with hash
+    const hash = window.location.hash;
+    if (hash) {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
     // Add mousemove event listener for all service-card elements to handle radial gradient effect
     const cards = document.querySelectorAll('.service-card');
     
