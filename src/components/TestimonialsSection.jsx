@@ -1,120 +1,316 @@
+import React, { useEffect, useRef, useState } from 'react';
 
-import { useRef, useEffect } from 'react';
-import TestimonialCard from './TestimonialCard';
+const testimonials = [
+  {
+    content: "The inventory management system completely transformed our retail operations. We've seen a 30% reduction in stockouts and improved customer satisfaction.",
+    author: "Sarah Johnson",
+    role: "Operations Director",
+    company: "FashionForward",
+    image: "/testimonial-1.jpg"
+  },
+  {
+    content: "As a growing D2C brand, we needed a solution that could scale with us. This platform has been instrumental in helping us manage our rapid growth.",
+    author: "Michael Chen",
+    role: "Founder & CEO",
+    company: "Urban Essentials",
+    image: "/testimonial-2.jpg"
+  },
+  {
+    content: "The data insights from this system have enabled us to make more informed purchasing decisions, significantly reducing excess inventory.",
+    author: "Priya Patel",
+    role: "Supply Chain Manager",
+    company: "StyleHub",
+    image: "/testimonial-3.jpg"
+  },
+  {
+    content: "Integration was seamless, and the team provided exceptional support throughout the implementation process. Highly recommended!",
+    author: "David Wilson",
+    role: "IT Director",
+    company: "Market Fresh",
+    image: "/testimonial-4.jpg"
+  },
+  {
+    content: "The real-time visibility across all our retail locations has been a game-changer for our multi-store operations.",
+    author: "Elena Rodriguez",
+    role: "Retail Operations Manager",
+    company: "LuxeLifestyle",
+    image: "/testimonial-5.jpg"
+  },
+  {
+    content: "We've been able to reduce inventory costs by 25% while improving product availability. The ROI has been extraordinary.",
+    author: "Thomas Wright",
+    role: "CFO",
+    company: "Fashion Republic",
+    image: "/testimonial-6.jpg"
+  },
+  {
+    content: "Their solution for managing seasonal inventory has helped us optimize our buying cycles and reduce clearance markdowns.",
+    author: "Jennifer Lee",
+    role: "Merchandise Planner",
+    company: "Seasons Apparel",
+    image: "/testimonial-7.jpg"
+  },
+  {
+    content: "The forecasting tools have improved our accuracy by over 40%, which has been critical for our just-in-time manufacturing approach.",
+    author: "Robert Martinez",
+    role: "Production Manager",
+    company: "Craft Manufacturing",
+    image: "/testimonial-8.jpg"
+  }
+];
 
 const TestimonialsSection = () => {
-  const testimonials = [
-    {
-      quote: "The inventory forecasting tools have dramatically reduced our stockouts while keeping inventory levels lean. It's been transformative for our cash flow.",
-      author: "Sarah Johnson",
-      company: "Fashion Retailer",
-      rating: 5
-    },
-    {
-      quote: "Implementation was smooth and the support team was there every step of the way. Our staff picked up the system quickly.",
-      author: "Michael Chen",
-      company: "Supermarket Chain",
-      rating: 5
-    },
-    {
-      quote: "We've been able to scale our D2C operations without the usual growing pains thanks to their inventory system.",
-      author: "Emma Rodriguez",
-      company: "Lifestyle Brand",
-      rating: 4
-    },
-    {
-      quote: "The analytics have given us insights we never had before. We're making better purchasing decisions and seeing the results on our bottom line.",
-      author: "David Wilson",
-      company: "Department Store",
-      rating: 5
-    },
-    {
-      quote: "Their solution seamlessly connected our in-store and online inventory, creating a true omnichannel experience for our customers.",
-      author: "Lisa Thompson",
-      company: "Fashion Boutique",
-      rating: 4
-    },
-    {
-      quote: "The ROI was evident within the first quarter. Inventory costs down, availability up, and staff spending less time on manual processes.",
-      author: "James Parker",
-      company: "Electronics Retailer",
-      rating: 5
-    },
-    {
-      quote: "Their manufacturing module has streamlined our production planning and materials management, reducing waste significantly.",
-      author: "Robert Garcia",
-      company: "Apparel Manufacturer",
-      rating: 5
-    },
-    {
-      quote: "Customer support is exceptional. They've been responsive and proactive in helping us get the most out of the system.",
-      author: "Olivia Kim",
-      company: "Home Goods Retailer",
-      rating: 4
-    }
-  ];
+  const containerRef = useRef(null);
+  const scrollerRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const column1 = testimonials.slice(0, 4);
-  const column2 = testimonials.slice(4);
+  useEffect(() => {
+    const setupInfiniteScroll = () => {
+      if (scrollerRef.current && containerRef.current) {
+        const originalContent = scrollerRef.current.innerHTML;
+        scrollerRef.current.innerHTML += originalContent;
+      }
+    };
 
-  // Function to assign varying heights for masonry effect
-  const getRandomHeight = () => {
-    const heights = ['h-auto', 'h-auto']; // Using auto-height based on content
-    return heights[Math.floor(Math.random() * heights.length)];
-  };
+    setupInfiniteScroll();
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+      if (scrollerRef.current) {
+        scrollerRef.current.style.animationPlayState = 'paused';
+      }
+    };
+
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      if (scrollerRef.current) {
+        scrollerRef.current.style.animationPlayState = 'running';
+      }
+    };
+
+    const container = containerRef.current;
+    container?.addEventListener('mouseenter', handleMouseEnter);
+    container?.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      container?.removeEventListener('mouseenter', handleMouseEnter);
+      container?.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
+  // Distribute testimonials into columns for masonry layout
+  const column1 = testimonials.slice(0, 3);
+  const column2 = testimonials.slice(3, 6);
+  const column3 = testimonials.slice(6);
+
+  console.log(testimonials[0].author)
 
   return (
-    <section id="testimonials" className="py-20 bg-muted/50 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-16 max-w-3xl mx-auto">
+    <section id="testimonials" className="py-24 px-4 relative overflow-hidden bg-secondary/50 dark:bg-gray-900/50">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 dark:from-violet-900/10 dark:to-indigo-900/10 -z-10"></div>
+      <div className="container mx-auto">
+        <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
-          <p className="text-lg text-muted-foreground">
-            Real feedback from retailers who have transformed their operations with our solutions.
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Hear from the retailers and brands that have transformed their operations with our solutions.
           </p>
         </div>
-        
-        <div className="relative h-[500px] md:h-[700px] overflow-hidden">
-          <div className="absolute w-full flex space-x-8">
-            {/* First scrolling column */}
-            <div className="w-full md:w-1/2 space-y-6 scrolling-testimonials">
-              {column1.map((testimonial, index) => (
-                <div 
-                  key={`col1-${index}`} 
-                  className={getRandomHeight()}
-                >
-                  <TestimonialCard {...testimonial} />
-                </div>
-              ))}
-              {/* Duplicate for seamless scrolling */}
-              {column1.map((testimonial, index) => (
-                <div 
-                  key={`col1-dup-${index}`} 
-                  className={getRandomHeight()}
-                >
-                  <TestimonialCard {...testimonial} />
-                </div>
-              ))}
-            </div>
-            
-            {/* Second scrolling column (delayed start) */}
-            <div className="hidden md:block w-1/2 space-y-6 scrolling-testimonials-delayed">
-              {column2.map((testimonial, index) => (
-                <div 
-                  key={`col2-${index}`} 
-                  className={getRandomHeight()}
-                >
-                  <TestimonialCard {...testimonial} />
-                </div>
-              ))}
-              {/* Duplicate for seamless scrolling */}
-              {column2.map((testimonial, index) => (
-                <div 
-                  key={`col2-dup-${index}`} 
-                  className={getRandomHeight()}
-                >
-                  <TestimonialCard {...testimonial} />
-                </div>
-              ))}
+
+        <div ref={containerRef} className="testimonial-container relative">
+          <div
+            ref={scrollerRef}
+            className="testimonial-scroller absolute w-full"
+            style={{
+              animation: 'scroll-testimonials 40s linear infinite',
+              animationPlayState: isHovered ? 'paused' : 'running',
+            }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Column 1 */}
+              <div className="space-y-6">
+                {column1.map((testimonial, index) => (
+                  <div
+                    key={`col1-${index}`}
+                    className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
+                    style={{
+                      animation: 'testimonial-up 0.8s forwards',
+                      animationDelay: `${index * 0.2}s`,
+                    }}
+                  >
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden">
+                        {testimonial.image ? (
+                          <div
+                            className="w-full h-full bg-center bg-cover"
+                            style={{ backgroundImage: `url(${testimonial.image})` }}
+                          ></div>
+                        ) : (
+                          testimonial.author.charAt(0)
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold dark:text-white">{testimonial.author}</h4>
+                        <p className="text-sm text-muted-foreground dark:text-gray-300">
+                          {testimonial.role}, {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="italic text-muted-foreground dark:text-gray-300">"{testimonial.content}"</p>
+                  </div>
+                ))}
+
+                {/* Repeating column 1 for infinite scroll */}
+                {column1.map((testimonial, index) => (
+                  <div
+                    key={`col1-repeat-${index}`}
+                    className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
+                  >
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden">
+                        {testimonial.image ? (
+                          <div
+                            className="w-full h-full bg-center bg-cover"
+                            style={{ backgroundImage: `url(${testimonial.image})` }}
+                          ></div>
+                        ) : (
+                          testimonial.author.charAt(0)
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold dark:text-white">{testimonial.author}</h4>
+                        <p className="text-sm text-muted-foreground dark:text-gray-300">
+                          {testimonial.role}, {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="italic text-muted-foreground dark:text-gray-300">"{testimonial.content}"</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Column 2 */}
+              <div className="space-y-6">
+                {column2.map((testimonial, index) => (
+                  <div
+                    key={`col2-${index}`}
+                    className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
+                    style={{
+                      animation: 'testimonial-up 0.8s forwards',
+                      animationDelay: `${index * 0.2 + 0.1}s`,
+                    }}
+                  >
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold overflow-hidden">
+                        {testimonial.image ? (
+                          <div
+                            className="w-full h-full bg-center bg-cover"
+                            style={{ backgroundImage: `url(${testimonial.image})` }}
+                          ></div>
+                        ) : (
+                          testimonial.author.charAt(0)
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold dark:text-white">{testimonial.author}</h4>
+                        <p className="text-sm text-muted-foreground dark:text-gray-300">
+                          {testimonial.role}, {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="italic text-muted-foreground dark:text-gray-300">"{testimonial.content}"</p>
+                  </div>
+                ))}
+
+                {/* Repeating column 2 for infinite scroll */}
+                {column2.map((testimonial, index) => (
+                  <div
+                    key={`col2-repeat-${index}`}
+                    className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
+                  >
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold overflow-hidden">
+                        {testimonial.image ? (
+                          <div
+                            className="w-full h-full bg-center bg-cover"
+                            style={{ backgroundImage: `url(${testimonial.image})` }}
+                          ></div>
+                        ) : (
+                          testimonial.author.charAt(0)
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold dark:text-white">{testimonial.author}</h4>
+                        <p className="text-sm text-muted-foreground dark:text-gray-300">
+                          {testimonial.role}, {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="italic text-muted-foreground dark:text-gray-300">"{testimonial.content}"</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Column 3 (only visible on large screens) */}
+              <div className="space-y-6 hidden lg:block">
+                {column3.map((testimonial, index) => (
+                  <div
+                    key={`col3-${index}`}
+                    className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
+                    style={{
+                      animation: 'testimonial-up 0.8s forwards',
+                      animationDelay: `${index * 0.2 + 0.2}s`,
+                    }}
+                  >
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden">
+                        {testimonial.image ? (
+                          <div
+                            className="w-full h-full bg-center bg-cover"
+                            style={{ backgroundImage: `url(${testimonial.image})` }}
+                          ></div>
+                        ) : (
+                          testimonial.author.charAt(0)
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold dark:text-white">{testimonial.author}</h4>
+                        <p className="text-sm text-muted-foreground dark:text-gray-300">
+                          {testimonial.role}, {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="italic text-muted-foreground dark:text-gray-300">"{testimonial.content}"</p>
+                  </div>
+                ))}
+
+                {/* Repeating column 3 for infinite scroll */}
+                {column3.map((testimonial, index) => (
+                  <div
+                    key={`col3-repeat-${index}`}
+                    className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
+                  >
+                    <div className="flex items-center mb-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold overflow-hidden">
+                        {testimonial.image ? (
+                          <div
+                            className="w-full h-full bg-center bg-cover"
+                            style={{ backgroundImage: `url(${testimonial.image})` }}
+                          ></div>
+                        ) : (
+                          testimonial.author.charAt(0)
+                        )}
+                      </div>
+                      <div className="ml-3">
+                        <h4 className="font-semibold dark:text-white">{testimonial.author}</h4>
+                        <p className="text-sm text-muted-foreground dark:text-gray-300">
+                          {testimonial.role}, {testimonial.company}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="italic text-muted-foreground dark:text-gray-300">"{testimonial.content}"</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
