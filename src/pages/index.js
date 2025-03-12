@@ -9,7 +9,7 @@ import ClientsSection from '../components/ClientsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import StatsSection from '../components/StatsSection';
 import Footer from '../components/Footer';
-import { ThemeProvider } from '../hooks/useTheme';
+import { ThemeProvider } from '../hooks/useTheme.jsx';
 
 const Home = () => {
   useEffect(() => {

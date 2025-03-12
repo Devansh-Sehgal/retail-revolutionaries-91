@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useTheme } from '../hooks/useTheme';
+import { useTheme } from '../hooks/useTheme.jsx';
 import { Sun, Moon, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
