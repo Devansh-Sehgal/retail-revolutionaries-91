@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
@@ -9,7 +10,6 @@ import TestimonialsSection from '../components/TestimonialsSection';
 import StatsSection from '../components/StatsSection';
 import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
-import { ThemeProvider } from '../hooks/useTheme.jsx';
 
 const Index = () => {
   useEffect(() => {
@@ -47,22 +47,20 @@ const Index = () => {
   }, []);
 
   return (
-    <ThemeProvider>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
-          <HeroSection />
-          <StatsSection />
-          <ServicesSection />
-          <SolutionsSection />
-          <ProductsSection />
-          <ClientsSection />
-          <TestimonialsSection />
-          <Newsletter />
-        </main>
-        <Footer />
-      </div>
-    </ThemeProvider>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow">
+        <HeroSection />
+        <StatsSection />
+        <ServicesSection />
+        <SolutionsSection />
+        <ProductsSection />
+        <ClientsSection />
+        <TestimonialsSection />
+        <Newsletter />
+      </main>
+      <Footer />
+    </div>
   );
 };
 
