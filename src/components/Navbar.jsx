@@ -1,12 +1,11 @@
+
 import { useState, useEffect } from 'react';
-import { useTheme } from '../hooks/useTheme.jsx';
-import { Sun, Moon, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md py-2' 
+        ? 'bg-white/80 backdrop-blur-lg shadow-md py-2' 
         : 'bg-transparent py-4'
     }`}>
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
@@ -89,23 +88,9 @@ const Navbar = () => {
           <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
             Contact
           </Link>
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
         </div>
         
         <div className="md:hidden flex items-center">
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors mr-2"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 text-foreground"
@@ -117,7 +102,7 @@ const Navbar = () => {
       </div>
       
       {isMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-background dark:bg-gray-900 shadow-lg animate-fade-down">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-background shadow-lg animate-fade-down">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
             <Link 
               to={getHref('services')}

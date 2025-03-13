@@ -5,10 +5,10 @@ import { ArrowRightIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 const carouselImages = [
-  "https://images.unsplash.com/photo-1664575198308-3959904fa430?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2070&auto=format&fit=crop"
+  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2070&auto=format&fit=crop"
 ];
 
 const HeroSection = () => {
@@ -38,8 +38,8 @@ const HeroSection = () => {
       const x = (clientX - left) / width;
       const y = (clientY - top) / height;
 
-      // Reduced animation effect
-      bgRef.current.style.transform = `translate(${x * 10 - 5}px, ${y * 10 - 5}px)`;
+      // Reduced animation effect (reduced from 10px to 5px)
+      bgRef.current.style.transform = `translate(${x * 5 - 2.5}px, ${y * 5 - 2.5}px)`;
     };
 
     const heroElement = heroRef.current;
@@ -65,10 +65,10 @@ const HeroSection = () => {
       <div className="absolute inset-0 overflow-hidden">
         <div
           ref={bgRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-20 transition-opacity duration-300 -z-10"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-10 transition-opacity duration-300 -z-10"
         >
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-pink-500/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-teal-400/30 via-cyan-300/20 to-blue-400/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-300/30 via-purple-300/20 to-pink-300/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-teal-300/20 via-cyan-200/10 to-blue-300/20 rounded-full blur-3xl"></div>
         </div>
       </div>
 
@@ -76,13 +76,13 @@ const HeroSection = () => {
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute bg-primary/30 rounded-full"
+            className="absolute bg-primary/20 rounded-full"
             style={{
-              width: `${Math.random() * 10 + 3}px`,
-              height: `${Math.random() * 10 + 3}px`,
+              width: `${Math.random() * 8 + 3}px`,
+              height: `${Math.random() * 8 + 3}px`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.3,
+              opacity: Math.random() * 0.3 + 0.2,
               animation: `float ${Math.random() * 10 + 10}s linear infinite`,
               animationDelay: `${Math.random() * 5}s`
             }}
@@ -123,7 +123,7 @@ const HeroSection = () => {
                       <img
                         src={src}
                         alt={`Retail solution ${index + 1}`}
-                        className="rounded-xl w-full h-full object-cover relative z-10 transition-transform duration-300 hover:scale-105"
+                        className="rounded-xl w-full h-full object-cover relative z-10 transition-transform duration-300 hover:scale-[1.02]"
                       />
                     </div>
                   </CarouselItem>
@@ -131,8 +131,24 @@ const HeroSection = () => {
               </CarouselContent>
             </Carousel>
 
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-amber-400 rounded-full blur-xl opacity-60 animate-pulse"></div>
-            <div className="absolute -top-6 -left-6 w-32 h-32 bg-teal-400 rounded-full blur-xl opacity-60 animate-pulse"></div>
+            {/* Carousel dots navigation */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {carouselImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    index === activeIndex 
+                      ? 'bg-primary w-6' 
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-amber-200 rounded-full blur-xl opacity-40 animate-pulse"></div>
+            <div className="absolute -top-6 -left-6 w-32 h-32 bg-teal-200 rounded-full blur-xl opacity-40 animate-pulse"></div>
           </div>
         </div>
       </div>
