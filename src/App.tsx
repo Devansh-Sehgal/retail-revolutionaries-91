@@ -11,7 +11,6 @@ import { ThemeProvider } from "./hooks/useTheme.jsx";
 
 const queryClient = new QueryClient();
 
-// Use light theme only, no dark theme
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
