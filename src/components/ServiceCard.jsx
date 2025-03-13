@@ -26,7 +26,7 @@ const ServiceCard = ({ icon: Icon, title, description }) => {
   return (
     <div 
       ref={cardRef}
-      className="service-card bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-border relative overflow-hidden group"
+      className="service-card bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-border relative overflow-hidden group h-full flex flex-col"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -36,14 +36,14 @@ const ServiceCard = ({ icon: Icon, title, description }) => {
         className="absolute w-[200px] h-[200px] rounded-full bg-gradient-to-r from-primary/20 to-transparent blur-xl opacity-0 transition-opacity duration-300 pointer-events-none -translate-x-1/2 -translate-y-1/2"
       ></div>
       
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1 flex flex-col">
         <div className="w-14 h-14 flex items-center justify-center rounded-lg bg-primary/10 text-primary mb-4 transition-transform group-hover:scale-110 duration-300">
           <Icon size={24} />
         </div>
         
         <h3 className="text-xl font-semibold mb-3 text-foreground">{title}</h3>
         
-        <p className="text-muted-foreground">{description}</p>
+        <p className="text-muted-foreground flex-grow">{description}</p>
         
         <div className="mt-6 pt-4 border-t border-border">
           <a href="#" className="text-primary font-medium inline-flex items-center hover:underline">
