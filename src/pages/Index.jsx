@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import ServicesSection from '../components/ServicesSection';
@@ -13,8 +13,10 @@ import Newsletter from '../components/Newsletter';
 import { ThemeProvider } from '../hooks/useTheme.jsx';
 
 const Index = () => {
-  // Creating refs for the sections that will have parallax effects
+  const [currentSection, setCurrentSection] = useState(0);
   const sectionsWrapperRef = useRef(null);
+  const totalSections = 3; // services, solutions, products
+  const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
     // Handle section scrolling when page loads with hash
@@ -43,83 +45,46 @@ const Index = () => {
       card.addEventListener('mousemove', (e) => handleMouseMove(e, card));
     });
 
-    // Initialize scrollTrigger for parallax sections
-    const initParallax = () => {
-      const sections = document.querySelectorAll('.parallax-section');
-      const sectionsContainer = document.querySelector('.parallax-container');
+    // Handle wheel events for section scrolling
+    const handleWheel = (e) => {
+      if (isScrolling || !sectionsWrapperRef.current) return;
       
-      if (!sectionsContainer) return;
-      
-      let currentSection = 0;
-      let isScrolling = false;
-      
-      const goToSection = (index) => {
-        if (isScrolling) return;
-        isScrolling = true;
-        currentSection = index;
-        
-        sections.forEach((section, i) => {
-          if (i === index) {
-            section.classList.add('active');
-            section.style.transform = 'translateY(0)';
-            section.style.opacity = '1';
-          } else if (i < index) {
-            section.classList.remove('active');
-            section.style.transform = 'translateY(-100%)';
-            section.style.opacity = '0';
-          } else {
-            section.classList.remove('active');
-            section.style.transform = 'translateY(100%)';
-            section.style.opacity = '0';
-          }
-        });
-        
-        setTimeout(() => {
-          isScrolling = false;
-        }, 1000);
-      };
-      
-      // Set initial section
-      sections.forEach((section, i) => {
-        if (i === 0) {
-          section.classList.add('active');
-          section.style.transform = 'translateY(0)';
-          section.style.opacity = '1';
-        } else {
-          section.style.transform = 'translateY(100%)';
-          section.style.opacity = '0';
-        }
-      });
-      
-      // Handle wheel events for section scrolling
-      const handleWheel = (e) => {
-        if (isScrolling) return;
-        
-        if (e.deltaY > 0 && currentSection < sections.length - 1) {
-          goToSection(currentSection + 1);
-        } else if (e.deltaY < 0 && currentSection > 0) {
-          goToSection(currentSection - 1);
-        }
-      };
-      
-      // Attach wheel event to the container
-      sectionsContainer.addEventListener('wheel', handleWheel);
-      
-      return () => {
-        sectionsContainer.removeEventListener('wheel', handleWheel);
-      };
+      if (e.deltaY > 0 && currentSection < totalSections - 1) {
+        goToNextSection();
+      } else if (e.deltaY < 0 && currentSection > 0) {
+        goToPrevSection();
+      }
     };
     
-    const cleanup = initParallax();
+    const parallaxContainer = sectionsWrapperRef.current;
+    if (parallaxContainer) {
+      parallaxContainer.addEventListener('wheel', handleWheel);
+    }
     
     return () => {
       cards.forEach(card => {
         card.removeEventListener('mousemove', (e) => handleMouseMove(e, card));
       });
       
-      if (cleanup) cleanup();
+      if (parallaxContainer) {
+        parallaxContainer.removeEventListener('wheel', handleWheel);
+      }
     };
-  }, []);
+  }, [currentSection, isScrolling]);
+
+  const goToNextSection = () => {
+    if (isScrolling || currentSection >= totalSections - 1) return;
+    setIsScrolling(true);
+    setCurrentSection(prev => prev + 1);
+    setTimeout(() => setIsScrolling(false), 800);
+  };
+
+  const goToPrevSection = () => {
+    if (isScrolling || currentSection <= 0) return;
+    setIsScrolling(true);
+    setCurrentSection(prev => prev - 1);
+    setTimeout(() => setIsScrolling(false), 800);
+  };
 
   return (
     <ThemeProvider>
@@ -129,18 +94,74 @@ const Index = () => {
           <HeroSection />
           <StatsSection />
           
-          {/* Parallax container for Services, Solutions, and Products sections */}
-          <div className="parallax-container h-screen overflow-hidden relative" ref={sectionsWrapperRef}>
-            <div id="services" className="parallax-section h-screen transition-all duration-1000 ease-in-out">
+          {/* Card-style parallax container for Services, Solutions, and Products sections */}
+          <div 
+            className="parallax-container h-screen overflow-hidden relative" 
+            ref={sectionsWrapperRef}
+          >
+            <div 
+              id="services" 
+              className={`parallax-section absolute inset-0 transition-all duration-800 ease-in-out ${
+                currentSection === 0 
+                  ? 'z-30 opacity-100 transform-none' 
+                  : 'z-0 opacity-0 translate-y-full'
+              }`}
+            >
               <ServicesSection />
             </div>
             
-            <div id="solutions" className="parallax-section h-screen transition-all duration-1000 ease-in-out">
+            <div 
+              id="solutions" 
+              className={`parallax-section absolute inset-0 transition-all duration-800 ease-in-out ${
+                currentSection === 1 
+                  ? 'z-30 opacity-100 transform-none rotate-1' 
+                  : currentSection < 1 
+                    ? 'z-20 opacity-0 translate-y-full rotate-2' 
+                    : 'z-0 opacity-0 -translate-y-full -rotate-1'
+              }`}
+              style={{
+                transformOrigin: currentSection === 0 ? 'bottom center' : 'top center'
+              }}
+            >
               <SolutionsSection />
             </div>
             
-            <div id="products" className="parallax-section h-screen transition-all duration-1000 ease-in-out">
+            <div 
+              id="products" 
+              className={`parallax-section absolute inset-0 transition-all duration-800 ease-in-out ${
+                currentSection === 2 
+                  ? 'z-30 opacity-100 transform-none rotate-1' 
+                  : currentSection < 2 
+                    ? 'z-10 opacity-0 translate-y-full rotate-3' 
+                    : 'z-0 opacity-0 -translate-y-full -rotate-1'
+              }`}
+              style={{
+                transformOrigin: currentSection < 2 ? 'bottom center' : 'top center'
+              }}
+            >
               <ProductsSection />
+            </div>
+
+            {/* Section navigation indicators */}
+            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 z-50 flex flex-col gap-4">
+              {[...Array(totalSections)].map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentSection === index 
+                      ? 'bg-primary w-10' 
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  onClick={() => {
+                    if (!isScrolling) {
+                      setIsScrolling(true);
+                      setCurrentSection(index);
+                      setTimeout(() => setIsScrolling(false), 800);
+                    }
+                  }}
+                  aria-label={`Go to section ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
           

@@ -37,12 +37,14 @@ const HeroSection = () => {
       const x = (clientX - left) / width;
       const y = (clientY - top) / height;
 
-      bgRef.current.style.transform = `translate(${x * 20 - 10}px, ${y * 20 - 10}px)`;
+      // Reduced movement amount from 20 to 10
+      bgRef.current.style.transform = `translate(${x * 10 - 5}px, ${y * 10 - 5}px)`;
 
-      // Add enhanced tilt effect to the image container
+      // Reduced tilt effect for the image container
       const imageContainer = document.querySelector('.carousel-container');
       if (imageContainer) {
-        imageContainer.style.transform = `perspective(1000px) rotateY(${(x - 0.5) * 10}deg) rotateX(${(y - 0.5) * -10}deg) scale(1.05)`;
+        // Reduced rotation from 10 to 5 degrees and scale from 1.05 to 1.03
+        imageContainer.style.transform = `perspective(1000px) rotateY(${(x - 0.5) * 5}deg) rotateX(${(y - 0.5) * -5}deg) scale(1.03)`;
       }
     };
 
@@ -86,14 +88,14 @@ const HeroSection = () => {
       className="relative min-h-screen flex items-center py-20 overflow-hidden"
       id="hero"
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Animated background elements - moved below the content for proper z-index layering */}
+      <div className="absolute inset-0 overflow-hidden -z-10">
         <div
           ref={bgRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] animated-bg opacity-20 transition-opacity duration-300"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] animated-bg opacity-30 transition-opacity duration-300"
         >
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-pink-500/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-teal-400/30 via-cyan-300/20 to-blue-400/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-400/40 via-purple-500/20 to-teal-500/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-cyan-400/40 via-blue-300/20 to-indigo-400/30 rounded-full blur-3xl"></div>
         </div>
       </div>
 

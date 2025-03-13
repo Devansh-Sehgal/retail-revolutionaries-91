@@ -29,6 +29,7 @@ const ServiceCard = ({ icon: Icon, title, description }) => {
       className="service-card bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-border relative overflow-hidden group h-full flex flex-col"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      style={{ minHeight: '320px' }} // Added fixed minimum height
     >
       {/* Radial gradient that follows mouse */}
       <div 
