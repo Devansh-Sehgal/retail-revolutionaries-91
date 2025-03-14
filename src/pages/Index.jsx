@@ -39,10 +39,29 @@ const Index = () => {
       card.addEventListener('mousemove', (e) => handleMouseMove(e, card));
     });
     
+    // Set up scroll animation observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show-section');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all items with animation classes
+    const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item');
+    animatedElements.forEach((el) => observer.observe(el));
+    
     return () => {
       cards.forEach(card => {
         card.removeEventListener('mousemove', (e) => handleMouseMove(e, card));
       });
+      
+      // Clean up the observer
+      animatedElements.forEach((el) => observer.unobserve(el));
     };
   }, []);
 
