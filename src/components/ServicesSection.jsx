@@ -1,3 +1,4 @@
+
 import { BarChart3, Cloud, Code, Palette, ShoppingBag, Truck } from 'lucide-react';
 import ServiceCard from './ServiceCard';
 
@@ -50,12 +51,12 @@ const ServicesSection = () => {
         </div>
 
 
-        <div className="flex flex-col h-[420px] p-3 items-center md:justify-center w-full rounded-3xl gap-10 overflow-y- scrollbar-hide">
+        <div className="flex flex-col h-[410px] p-3 items-center md:justify-center w-full rounded-3xl gap-10 overflow-y- scrollbar-hide">
 
           <div className="relative grid grid-cols-1 rounded-2xl md:grid-cols-2 gap-6 overflow-hidden overflow-y-scroll scrollbar-hide">
 
             {services.map((service, index) => (
-              
+
               <div
                 key={index}
                 className="animate-fade-up sticky top-0 rounded-2xl p-4"
