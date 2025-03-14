@@ -19,12 +19,12 @@ const HeroSection = () => {
 
   useEffect(() => {
     setIsLoaded(true);
-    
+
     // Auto-rotate carousel
     const interval = setInterval(() => {
       setActiveIndex(prevIndex => (prevIndex + 1) % carouselImages.length);
     }, 5000); // Change image every 5 seconds
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -58,7 +58,7 @@ const HeroSection = () => {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center py-20 overflow-hidden"
+      className="relative py-24 min-h-screen flex items-center overflow-hidden"
       id="hero"
     >
       {/* Animated background elements */}
@@ -104,7 +104,7 @@ const HeroSection = () => {
               opacity: isLoaded ? 1 : 0,
               transform: isLoaded ? 'translateY(0)' : 'translateY(20px)'
             }}>
-              <Button size="lg">
+              <Button size="lg" className="animate-pulse">
                 Get Started
                 <ArrowRightIcon className="ml-2 h-4 w-4" />
               </Button>
@@ -114,16 +114,16 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="relative animate-fade-up" style={{ animationDelay: '0.3s' }}>
+          <div className="relative animate-fade-up rounded-2xl" style={{ animationDelay: '0.3s' }}>
             <Carousel className="w-full h-full">
-              <CarouselContent>
+              <CarouselContent >
                 {carouselImages.map((src, index) => (
                   <CarouselItem key={index} className={index === activeIndex ? 'block' : 'hidden'}>
-                    <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
+                    <div className="relative rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
                       <img
                         src={src}
                         alt={`Retail solution ${index + 1}`}
-                        className="rounded-xl w-full h-full object-cover relative z-10 transition-transform duration-300 hover:scale-[1.02]"
+                        className="rounded-xl w-full h-96 object-cover relative z-10 transition-transform duration-300 hover:scale-[1.02]"
                       />
                     </div>
                   </CarouselItem>
@@ -137,18 +137,17 @@ const HeroSection = () => {
                 <button
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === activeIndex 
-                      ? 'bg-primary w-6' 
-                      : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex
+                    ? 'bg-primary w-6'
+                    : 'bg-gray-300 hover:bg-gray-400'
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>
 
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-amber-200 rounded-full blur-xl opacity-40 animate-pulse"></div>
-            <div className="absolute -top-6 -left-6 w-32 h-32 bg-teal-200 rounded-full blur-xl opacity-40 animate-pulse"></div>
+            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-green-300 rounded-full blur-xl opacity-40 -z-10 animate-pulse"></div>
+            <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-200 rounded-full blur-xl opacity-40 -z-10 animate-pulse"></div>
           </div>
         </div>
       </div>
