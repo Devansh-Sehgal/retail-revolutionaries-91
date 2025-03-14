@@ -23,7 +23,8 @@ const ServiceCard = ({ icon: Icon, title, description, index }) => {
     }
   };
 
-  const rowIndex = Math.floor(index / 2); return (
+  const rowIndex = Math.floor(index / 2); 
+  return (
     <div
       ref={cardRef}
       className={`service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-border relative overflow-hidden group h-full min-h-[340px] flex flex-col ${rowIndex % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
@@ -35,7 +36,7 @@ const ServiceCard = ({ icon: Icon, title, description, index }) => {
         className="absolute w-[150px] h-[150px] rounded-full bg-gradient-to-r from-blue-200/30 to-purple-200/20 blur-xl opacity-0 transition-opacity duration-300 pointer-events-none -translate-x-1/2 -translate-y-1/2"
       ></div>
 
-      <div className="relative z-10 flex flex-col flex-grow">
+      <div className="relative z-1 flex flex-col flex-grow">
         <div className="w-14 h-14 flex items-center justify-center rounded-lg bg-primary/10 text-primary mb-4 transition-transform group-hover:scale-105 duration-300">
           <Icon size={24} />
         </div>

@@ -101,7 +101,7 @@ const ProductsSection = () => {
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                  <div className="relative z-10">
+                  <div className="relative z-1">
                     <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
                       <product.icon size={24} className="transform transition-transform group-hover:scale-110 duration-300" />
                     </div>

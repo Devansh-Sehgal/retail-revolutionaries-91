@@ -139,9 +139,9 @@
   transform: translateY(0) !important;
 }
 
-/* Sticky item hover effect */
+/* Sticky item hover effect - removed z-index increase */
 .service-item:hover, .solution-item:hover, .product-item:hover {
-  z-index: 20;
+  /* z-index removed to prevent overlapping */
 }
 
 /* Custom utilities */
