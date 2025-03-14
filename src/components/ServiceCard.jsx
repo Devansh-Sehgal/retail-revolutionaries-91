@@ -1,3 +1,4 @@
+
 import { useRef } from 'react';
 
 const ServiceCard = ({ icon: Icon, title, description, index }) => {
@@ -25,13 +26,13 @@ const ServiceCard = ({ icon: Icon, title, description, index }) => {
   const rowIndex = Math.floor(index / 2); return (
     <div
       ref={cardRef}
-      className={`service-card bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-border relative overflow-hidden group h-full min-h-[340px] flex flex-col  ${rowIndex % 2 === 0 ? 'rotate-2' : '-rotate-2'}`}
+      className={`service-card bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-border relative overflow-hidden group h-full min-h-[340px] flex flex-col ${rowIndex % 2 === 0 ? 'rotate-1' : '-rotate-1'}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <div
         ref={gradientRef}
-        className="absolute w-[180px] h-[180px] rounded-full bg-gradient-to-r from-blue-200/40 to-purple-200/30 blur-xl opacity-0 transition-opacity duration-300 pointer-events-none -translate-x-1/2 -translate-y-1/2"
+        className="absolute w-[150px] h-[150px] rounded-full bg-gradient-to-r from-blue-200/30 to-purple-200/20 blur-xl opacity-0 transition-opacity duration-300 pointer-events-none -translate-x-1/2 -translate-y-1/2"
       ></div>
 
       <div className="relative z-10 flex flex-col flex-grow">

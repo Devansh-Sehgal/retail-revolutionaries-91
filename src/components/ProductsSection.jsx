@@ -97,9 +97,9 @@ const ProductsSection = () => {
                 }}
               >
                 <div
-                  className={`bg-white p-6 rounded-xl shadow-lg border border-border group hover:shadow-xl transition-all duration-300 relative overflow-hidden service-card h-full min-h-[340px] flex flex-col ${index % 2 === 1 ? 'rotate-2' : '-rotate-2'} w-[350px] sm:w-[400px] md:w-[380px] lg:w-[500px] xl:w-[550px]`}
+                  className={`bg-white p-6 rounded-xl shadow-md hover:shadow-lg border border-border group transition-all duration-300 relative overflow-hidden service-card h-full min-h-[340px] flex flex-col ${index % 2 === 1 ? 'rotate-1' : '-rotate-1'} w-[350px] sm:w-[400px] md:w-[380px] lg:w-[500px] xl:w-[550px]`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                   <div className="relative z-10">
                     <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
@@ -133,10 +133,10 @@ const ProductsSection = () => {
                       </div>
                     </div>
 
-                    <div className="h-1 w-0 bg-primary mt-6 transition-all duration-300 group-hover:w-full"></div>
+                    <div className="h-0.5 w-0 bg-primary mt-6 transition-all duration-300 group-hover:w-full"></div>
                   </div>
                   
-                  {/* Additional decorative elements */}
+                  {/* Subtle decorative elements */}
                   <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-primary/5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
               </div>
