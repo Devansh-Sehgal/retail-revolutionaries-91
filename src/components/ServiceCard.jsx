@@ -1,4 +1,3 @@
-
 import { useRef } from 'react';
 
 const ServiceCard = ({ icon: Icon, title, description, index }) => {
