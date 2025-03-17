@@ -128,3 +128,58 @@
 .service-card:hover::before {
   opacity: 1;
 }
+
+/* Client card animations */
+@keyframes client-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.client-card {
+  animation: client-fade-in 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Testimonial animations */
+@keyframes testimonial-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scroll-testimonials {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.testimonial-container {
+  height: 800px;
+  overflow: hidden;
+}
+
+.testimonial-scroller {
+  animation: scroll-testimonials 40s linear infinite;
+}
+
+.testimonial-item {
+  opacity: 0;
+}
+
+.testimonial-item.show {
+  animation: testimonial-up 0.8s forwards;
+}

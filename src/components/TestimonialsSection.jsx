@@ -92,9 +92,28 @@ const TestimonialsSection = () => {
     container?.addEventListener('mouseenter', handleMouseEnter);
     container?.addEventListener('mouseleave', handleMouseLeave);
 
+    // Set up testimonial animation observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all testimonial items
+    const testimonialItems = document.querySelectorAll('.testimonial-item');
+    testimonialItems.forEach((item) => observer.observe(item));
+
     return () => {
       container?.removeEventListener('mouseenter', handleMouseEnter);
       container?.removeEventListener('mouseleave', handleMouseLeave);
+      
+      // Clean up observer
+      testimonialItems.forEach((item) => observer.unobserve(item));
     };
   }, []);
 
@@ -109,7 +128,7 @@ const TestimonialsSection = () => {
     <section id="testimonials" className="py-24 px-4 relative overflow-hidden bg-secondary/50 dark:bg-gray-900/50">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 dark:from-violet-900/10 dark:to-indigo-900/10 -z-10"></div>
       <div className="container mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 animate-on-scroll">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Hear from the retailers and brands that have transformed their operations with our solutions.
@@ -133,7 +152,6 @@ const TestimonialsSection = () => {
                     key={`col1-${index}`}
                     className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
                     style={{
-                      animation: 'testimonial-up 0.8s forwards',
                       animationDelay: `${index * 0.2}s`,
                     }}
                   >
@@ -195,7 +213,6 @@ const TestimonialsSection = () => {
                     key={`col2-${index}`}
                     className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
                     style={{
-                      animation: 'testimonial-up 0.8s forwards',
                       animationDelay: `${index * 0.2 + 0.1}s`,
                     }}
                   >
@@ -257,7 +274,6 @@ const TestimonialsSection = () => {
                     key={`col3-${index}`}
                     className="testimonial-item bg-gradient-to-br from-background to-background/80 dark:from-gray-800 dark:to-gray-800/80 dark:border-gray-700 p-6 rounded-xl shadow-md border border-border"
                     style={{
-                      animation: 'testimonial-up 0.8s forwards',
                       animationDelay: `${index * 0.2 + 0.2}s`,
                     }}
                   >
