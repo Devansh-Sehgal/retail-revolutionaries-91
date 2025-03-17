@@ -122,7 +122,7 @@ const HeroSection = () => {
                     <div className="relative rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
                       <img
                         src={src}
-                        alt={`Retail solution ${index + 1}`}
+                        alt={`Banner ${index + 1}`}
                         className="rounded-xl w-full h-96 object-cover relative z-10 transition-transform duration-300 hover:scale-[1.02]"
                       />
                     </div>
