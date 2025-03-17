@@ -5,10 +5,10 @@ import { ArrowRightIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 const carouselImages = [
-  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2070&auto=format&fit=crop"
+  "/banner 1.jpg",
+  "/banner 2.jpg",
+  "/banner 3.jpg",
+  "/banner 4.jpg"
 ];
 
 const HeroSection = () => {
