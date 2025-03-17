@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
@@ -53,6 +52,7 @@ const Index = () => {
     );
 
     // Observe all items with animation classes
+    // const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item');
     const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item, .animate-on-scroll');
     animatedElements.forEach((el) => observer.observe(el));
     
