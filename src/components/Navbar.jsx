@@ -22,7 +22,7 @@ const Navbar = () => {
   }, []);
 
   const getHref = (sectionId) => {
-    if (location.pathname === '/contact') {
+    if (location.pathname !== '/') {
       return `/#${sectionId}`;
     }
     return `#${sectionId}`;
@@ -50,6 +50,12 @@ const Navbar = () => {
         </Link>
         
         <div className="hidden md:flex items-center space-x-8">
+          <Link 
+            to="/about" 
+            className="text-foreground hover:text-primary transition-colors"
+          >
+            About Us
+          </Link>
           <Link 
             to={getHref('services')} 
             onClick={(e) => handleNavClick(e, 'services')}
@@ -104,6 +110,13 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-background shadow-lg animate-fade-down">
           <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+            <Link 
+              to="/about" 
+              className="text-foreground hover:text-primary transition-colors py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About Us
+            </Link>
             <Link 
               to={getHref('services')}
               onClick={(e) => { handleNavClick(e, 'services'); setIsMenuOpen(false); }}

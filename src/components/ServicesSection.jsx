@@ -77,7 +77,7 @@ const ServicesSection = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="service-item animate-fade-up sticky top-0 rounded-2xl p-4 opacity-0 transform translate-y-10 transition-all duration-700"
+                className="service-item opacity-0 transform translate-y-10 transition-all duration-700"
                 style={{ 
                   animationDelay: `${0.1 + index * 0.1}s`,
                   transitionDelay: `${index * 0.05}s`
