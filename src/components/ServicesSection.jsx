@@ -68,7 +68,7 @@ const ServicesSection = () => {
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary/70 rounded-full"></div>
           </h2>
           <p className="text-lg text-muted-foreground mt-4">
-            Comprehensive solutions designed to transform retail operations with cutting-edge technology and industry expertise.
+            Our software programs are made to manage the intricacies of retail inventory, regardless of the product or volume.
           </p>
         </div>
 
