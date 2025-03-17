@@ -77,8 +77,8 @@ const ServicesSection = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="service-item opacity-0 transform translate-y-10 transition-all duration-700"
-                style={{ 
+                className="service-item animate-fade-up sticky top-0 rounded-2xl p-4 opacity-0 transform translate-y-10 transition-all duration-700"
+                style={{
                   animationDelay: `${0.1 + index * 0.1}s`,
                   transitionDelay: `${index * 0.05}s`
                 }}
@@ -87,7 +87,7 @@ const ServicesSection = () => {
               </div>
             ))}
           </div>
-          
+
           {/* Decorative elements */}
           <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-300/20 rounded-full blur-3xl z-0"></div>
           <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-300/20 rounded-full blur-3xl z-0"></div>
