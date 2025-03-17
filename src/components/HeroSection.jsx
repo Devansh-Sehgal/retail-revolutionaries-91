@@ -94,10 +94,10 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Revolutionize Your <span className="text-primary">Retail Business</span> With Smart Inventory Solutions
+              Quit speculating and  <span className="text-primary">begin to know.</span> Transform the way you manage your inventory.
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
-              Streamline operations, boost efficiency, and make data-driven decisions with our comprehensive inventory management services tailored for modern retailers.
+              With smart, cloud-based inventory systems, Inexterpsolution enables retailers to increase productivity and profitability.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4 transition-all duration-1000 delay-500" style={{
