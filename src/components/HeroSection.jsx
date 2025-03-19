@@ -113,7 +113,7 @@ const HeroSection = () => {
               {carouselContent.map((item, index) => (
                 <CarouselItem 
                   key={index} 
-                  className={`transition-all duration-700 transform ${index === activeIndex ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}`}
+                  className={`transition-all duration-700 transform ${index === activeIndex ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full absolute top-0 left-0 right-0'}`}
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>

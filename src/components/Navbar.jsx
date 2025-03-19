@@ -63,13 +63,6 @@ const Navbar = () => {
             Services
           </Link>
           <Link
-            to={getHref('products')}
-            onClick={(e) => handleNavClick(e, 'products')}
-            className="text-foreground hover:text-primary transition-colors"
-          >
-            Products
-          </Link>
-          <Link
             to="/contact"
             className="text-foreground hover:text-primary transition-colors"
           >
@@ -104,13 +97,6 @@ const Navbar = () => {
               className="text-foreground hover:text-primary transition-colors py-2"
             >
               Services
-            </Link>
-            <Link
-              to={getHref('products')}
-              onClick={(e) => { handleNavClick(e, 'products'); setIsMenuOpen(false); }}
-              className="text-foreground hover:text-primary transition-colors py-2"
-            >
-              Products
             </Link>
             <Link
               to="/contact"

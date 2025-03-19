@@ -96,7 +96,7 @@ const BlogSection = () => {
       ref={sectionRef}
       style={{ 
         height: "100vh", 
-        overflowY: allArticlesVisible ? "auto" : "hidden" 
+        overflowY: allCardsVisible ? "auto" : "hidden" 
       }}
     >
       <div className='flex flex-col p-2 gap-2 h-full'>
@@ -169,7 +169,7 @@ const BlogSection = () => {
         </ScrollArea>
 
         {/* Navigation hint that appears until all articles are seen */}
-        {!allArticlesVisible && (
+        {!allCardsVisible && (
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center animate-bounce">
             <p className="text-primary font-medium">Scroll to see all articles</p>
             <div className="w-6 h-6 mx-auto mt-2 border-b-2 border-r-2 border-primary transform rotate-45"></div>
