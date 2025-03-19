@@ -99,19 +99,6 @@ const HeroSection = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
               With smart, cloud-based inventory systems, Inexterpsolution enables retailers to increase productivity and profitability.
             </p>
-
-            <div className="flex flex-wrap gap-4 pt-4 transition-all duration-1000 delay-500" style={{
-              opacity: isLoaded ? 1 : 0,
-              transform: isLoaded ? 'translateY(0)' : 'translateY(20px)'
-            }}>
-              <Button size="lg" className="animate-pulse">
-                Get Started
-                <ArrowRightIcon className="ml-2 h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="lg" className="hover:border-primary/50 hover:bg-primary/5">
-                Learn More
-              </Button>
-            </div>
           </div>
 
           <div className="relative animate-fade-up rounded-2xl" style={{ animationDelay: '0.3s' }}>
