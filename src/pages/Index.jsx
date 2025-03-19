@@ -1,9 +1,10 @@
+
 import { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import ServicesSection from '../components/ServicesSection';
 import SolutionsSection from '../components/SolutionsSection';
-import ProductsSection from '../components/ProductsSection';
+import BlogSection from '../components/BlogSection';
 import ClientsSection from '../components/ClientsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import StatsSection from '../components/StatsSection';
@@ -21,6 +22,9 @@ const Index = () => {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
+    } else {
+      // If no hash, scroll to top (hero section)
+      window.scrollTo(0, 0);
     }
 
     // Add mousemove event listener for all service-card elements to handle radial gradient effect
@@ -53,8 +57,7 @@ const Index = () => {
     );
 
     // Observe all items with animation classes
-    // const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item');
-    const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item, .animate-on-scroll');
+    const animatedElements = document.querySelectorAll('.service-item, .solution-item, .blog-item, .animate-on-scroll');
     animatedElements.forEach((el) => observer.observe(el));
 
     return () => {
@@ -77,7 +80,7 @@ const Index = () => {
         <AboutUsSection />
         <ServicesSection />
         <SolutionsSection />
-        <ProductsSection />
+        <BlogSection />
         <ClientsSection />
         <TestimonialsSection />
         <Newsletter />

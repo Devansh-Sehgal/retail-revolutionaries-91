@@ -4,11 +4,27 @@ import { Button } from '@/components/ui/button';
 import { ArrowRightIcon } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
-const carouselImages = [
-  "/banner 1.jpg",
-  "/banner 2.jpg",
-  "/banner 3.jpg",
-  "/banner 4.jpg"
+const carouselContent = [
+  {
+    image: "/banner 1.jpg",
+    title: "Quit speculating and begin to know.",
+    subtitle: "With smart, cloud-based inventory systems, Inexterpsolution enables retailers to increase productivity and profitability."
+  },
+  {
+    image: "/banner 2.jpg",
+    title: "Transform your inventory management today.",
+    subtitle: "Streamline operations and reduce costs with our innovative retail solutions."
+  },
+  {
+    image: "/banner 3.jpg",
+    title: "Data-driven decisions for modern retail.",
+    subtitle: "Turn your inventory data into actionable insights and competitive advantage."
+  },
+  {
+    image: "/banner 4.jpg",
+    title: "Seamless omnichannel experience.",
+    subtitle: "Unify your in-store and online inventory for a consistent customer experience."
+  }
 ];
 
 const HeroSection = () => {
@@ -22,8 +38,8 @@ const HeroSection = () => {
 
     // Auto-rotate carousel
     const interval = setInterval(() => {
-      setActiveIndex(prevIndex => (prevIndex + 1) % carouselImages.length);
-    }, 5000); // Change image every 5 seconds
+      setActiveIndex(prevIndex => (prevIndex + 1) % carouselContent.length);
+    }, 5000); // Change content every 5 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -38,7 +54,7 @@ const HeroSection = () => {
       const x = (clientX - left) / width;
       const y = (clientY - top) / height;
 
-      // Reduced animation effect (reduced from 10px to 5px)
+      // Reduced animation effect
       bgRef.current.style.transform = `translate(${x * 5 - 2.5}px, ${y * 5 - 2.5}px)`;
     };
 
@@ -91,50 +107,54 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Quit speculating and  <span className="text-primary">begin to know.</span> Transform the way you manage your inventory.
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
-              With smart, cloud-based inventory systems, Inexterpsolution enables retailers to increase productivity and profitability.
-            </p>
-          </div>
-
-          <div className="relative animate-fade-up rounded-2xl" style={{ animationDelay: '0.3s' }}>
-            <Carousel className="w-full h-full">
-              <CarouselContent >
-                {carouselImages.map((src, index) => (
-                  <CarouselItem key={index} className={index === activeIndex ? 'block' : 'hidden'}>
-                    <div className="relative rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
-                      <img
-                        src={src}
-                        alt={`Banner ${index + 1}`}
-                        className="rounded-xl w-full h-96 object-cover relative z-10 transition-transform duration-300 hover:scale-[1.02]"
-                      />
+        <div className="w-full h-full relative">
+          <Carousel className="w-full h-full">
+            <CarouselContent className="overflow-visible">
+              {carouselContent.map((item, index) => (
+                <CarouselItem 
+                  key={index} 
+                  className={`transition-all duration-700 transform ${index === activeIndex ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}`}
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                        {item.title} <span className="text-primary">Transform the way</span> you manage your inventory.
+                      </h1>
+                      <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
+                        {item.subtitle}
+                      </p>
                     </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-
-            {/* Carousel dots navigation */}
-            <div className="flex justify-center mt-4 space-x-2">
-              {carouselImages.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex
-                    ? 'bg-primary w-6'
-                    : 'bg-gray-300 hover:bg-gray-400'
-                    }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
+                    
+                    <div className="relative animate-fade-up rounded-2xl" style={{ animationDelay: '0.3s' }}>
+                      <div className="relative rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
+                        <img
+                          src={item.image}
+                          alt={`Banner ${index + 1}`}
+                          className="rounded-xl w-full h-96 object-cover relative z-10 transition-transform duration-300 hover:scale-[1.02]"
+                        />
+                      </div>
+                      <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-green-300 rounded-full blur-xl opacity-40 -z-10 animate-pulse"></div>
+                      <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-200 rounded-full blur-xl opacity-40 -z-10 animate-pulse"></div>
+                    </div>
+                  </div>
+                </CarouselItem>
               ))}
-            </div>
+            </CarouselContent>
+          </Carousel>
 
-            <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-green-300 rounded-full blur-xl opacity-40 -z-10 animate-pulse"></div>
-            <div className="absolute -top-6 -left-6 w-32 h-32 bg-blue-200 rounded-full blur-xl opacity-40 -z-10 animate-pulse"></div>
+          {/* Carousel dots navigation */}
+          <div className="flex justify-center mt-4 space-x-2">
+            {carouselContent.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex
+                  ? 'bg-primary w-6'
+                  : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>

@@ -1,9 +1,11 @@
 
 import { ShoppingBag, ShoppingCart, Package, Store, ShirtIcon, Loader } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const SolutionsSection = () => {
   const sectionRef = useRef(null);
+  const [allCardsVisible, setAllCardsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -20,8 +22,29 @@ const SolutionsSection = () => {
     const solutions = document.querySelectorAll('.solution-item');
     solutions.forEach((solution) => observer.observe(solution));
 
+    // Create another observer to check if all cards have been viewed
+    const lastCardObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setAllCardsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe the last card
+    const lastCard = document.querySelector('.solution-item:last-child');
+    if (lastCard) {
+      lastCardObserver.observe(lastCard);
+    }
+
     return () => {
       solutions.forEach((solution) => observer.unobserve(solution));
+      if (lastCard) {
+        lastCardObserver.unobserve(lastCard);
+      }
     };
   }, []);
 
@@ -59,8 +82,16 @@ const SolutionsSection = () => {
   ];
 
   return (
-    <section id="solutions" className="py-4 bg-muted/50 relative" ref={sectionRef}>
-      <div className='flex flex-col p-2 gap-2'>
+    <section 
+      id="solutions" 
+      className="py-4 bg-muted/50 relative" 
+      ref={sectionRef}
+      style={{ 
+        height: "100vh", 
+        overflowY: allCardsVisible ? "auto" : "hidden" 
+      }}
+    >
+      <div className='flex flex-col p-2 gap-2 h-full'>
         <div className="text-center mb-4 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 relative">
             Our Solutions
@@ -71,12 +102,12 @@ const SolutionsSection = () => {
           </p>
         </div>
 
-        <div className="flex flex-col h-[370px] p-6 items-center md:justify-center w-full rounded-3xl gap-10 relative overflow-hidden">
-          <div className="relative grid grid-cols-1 rounded-2xl md:grid-cols-2 gap-6 overflow-hidden overflow-y-scroll scrollbar-hide">
+        <ScrollArea className="flex-1 w-full rounded-3xl">
+          <div className="relative grid grid-cols-1 rounded-2xl md:grid-cols-2 gap-6 p-6">
             {solutions.map((solution, index) => (
               <div
                 key={index}
-                className="solution-item animate-fade-up sticky top-0 rounded-2xl p-4 opacity-0 transform translate-y-10 transition-all duration-700"
+                className={`solution-item animate-fade-up opacity-0 transform translate-y-10 transition-all duration-700 ${index === solutions.length - 1 ? 'last-solution' : ''}`}
                 style={{ 
                   animationDelay: `${0.1 + index * 0.1}s`,
                   transitionDelay: `${index * 0.05}s`
@@ -104,11 +135,19 @@ const SolutionsSection = () => {
               </div>
             ))}
           </div>
-          
-          {/* Decorative elements */}
-          <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-300/10 rounded-full blur-3xl z-0"></div>
-          <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-300/10 rounded-full blur-3xl z-0"></div>
-        </div>
+        </ScrollArea>
+
+        {/* Navigation hint that appears until all cards are seen */}
+        {!allCardsVisible && (
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center animate-bounce">
+            <p className="text-primary font-medium">Scroll to see all solutions</p>
+            <div className="w-6 h-6 mx-auto mt-2 border-b-2 border-r-2 border-primary transform rotate-45"></div>
+          </div>
+        )}
+        
+        {/* Decorative elements */}
+        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-300/10 rounded-full blur-3xl z-0"></div>
+        <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-300/10 rounded-full blur-3xl z-0"></div>
       </div>
     </section>
   );
