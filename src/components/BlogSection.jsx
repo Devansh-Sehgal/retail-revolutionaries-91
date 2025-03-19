@@ -1,90 +1,105 @@
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Calendar, Clock, ArrowRight, BookOpen, Tag } from 'lucide-react';
-import { ScrollArea } from "@/components/ui/scroll-area";
+import React, { useState, useRef, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ArrowRight, Clock, Calendar, User } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+const blogPosts = [
+  {
+    id: 1,
+    title: "The Future of Retail Inventory Management",
+    excerpt: "Explore how AI and machine learning are transforming the way retailers manage inventory across channels.",
+    author: "Jane Smith",
+    date: "May 15, 2023",
+    readTime: "5 min read",
+    categories: ["Retail", "Technology"],
+    image: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 2,
+    title: "10 Ways to Reduce Stock Discrepancies in Your Retail Business",
+    excerpt: "Practical strategies to minimize inventory discrepancies and improve accuracy in your retail operations.",
+    author: "Michael Chen",
+    date: "Apr 28, 2023",
+    readTime: "7 min read",
+    categories: ["Inventory", "Best Practices"],
+    image: "https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 3,
+    title: "How Omnichannel Inventory Management Increases Sales",
+    excerpt: "Discover how a unified inventory approach can boost your retail business revenue and customer satisfaction.",
+    author: "Sarah Johnson",
+    date: "Apr 10, 2023",
+    readTime: "6 min read",
+    categories: ["Omnichannel", "Sales"],
+    image: "https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 4,
+    title: "Sustainable Inventory Practices for Modern Retailers",
+    excerpt: "How leading retailers are reducing waste and improving sustainability through better inventory management.",
+    author: "David Rodriguez",
+    date: "Mar 22, 2023",
+    readTime: "8 min read",
+    categories: ["Sustainability", "Trends"],
+    image: "https://images.unsplash.com/photo-1610018556010-6a11691bc905?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 5,
+    title: "Key Metrics Every Retailer Should Track for Inventory Health",
+    excerpt: "Essential KPIs and metrics that help retailers maintain optimal inventory levels and improve turnover.",
+    author: "Lisa Wong",
+    date: "Mar 5, 2023",
+    readTime: "6 min read",
+    categories: ["Analytics", "Strategy"],
+    image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: 6,
+    title: "Inventory Management Software: Build vs Buy Decision Guide",
+    excerpt: "A comprehensive guide to help retailers decide whether to build custom inventory solutions or purchase existing ones.",
+    author: "Robert Taylor",
+    date: "Feb 18, 2023",
+    readTime: "9 min read",
+    categories: ["Software", "Decision Making"],
+    image: "https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  }
+];
 
 const BlogSection = () => {
   const sectionRef = useRef(null);
-  const [allArticlesVisible, setAllArticlesVisible] = useState(false);
-
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Optimizing Inventory Management for Fashion Retailers",
-      excerpt: "Learn how modern inventory systems can help fashion retailers reduce stockouts and overstock situations across seasonal collections.",
-      category: "Fashion Retail",
-      date: "May 15, 2023",
-      readTime: "5 min read",
-      image: "/banner 1.jpg"
-    },
-    {
-      id: 2,
-      title: "The Future of Retail: AI-Powered Inventory Forecasting",
-      excerpt: "Discover how artificial intelligence is transforming inventory forecasting for retailers of all sizes.",
-      category: "Technology",
-      date: "April 28, 2023",
-      readTime: "8 min read",
-      image: "/banner 2.jpg"
-    },
-    {
-      id: 3,
-      title: "Reducing Waste in Grocery Retail Through Smart Inventory",
-      excerpt: "How supermarkets are using advanced inventory management to minimize food waste and maximize profits.",
-      category: "Grocery",
-      date: "April 10, 2023",
-      readTime: "6 min read",
-      image: "/banner 3.jpg"
-    },
-    {
-      id: 4,
-      title: "Omnichannel Success: Unifying Your Inventory Across Platforms",
-      excerpt: "Strategies for creating a seamless inventory experience across physical stores and online channels.",
-      category: "Omnichannel",
-      date: "March 22, 2023",
-      readTime: "7 min read",
-      image: "/banner 4.jpg"
-    }
-  ];
+  const [visibleCards, setVisibleCards] = useState(new Set());
+  const [allCardsVisible, setAllCardsVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('show-section');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const articles = document.querySelectorAll('.blog-item');
-    articles.forEach((article) => observer.observe(article));
-
-    // Create another observer to check if all articles have been viewed
-    const lastArticleObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setAllArticlesVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    // Observe the last article
-    const lastArticle = document.querySelector('.blog-item:last-child');
-    if (lastArticle) {
-      lastArticleObserver.observe(lastArticle);
+    if (visibleCards.size === blogPosts.length) {
+      setAllCardsVisible(true);
     }
+  }, [visibleCards]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const cardId = parseInt(entry.target.dataset.cardId);
+          setVisibleCards(prev => {
+            const newSet = new Set(prev);
+            newSet.add(cardId);
+            return newSet;
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.7 });
+
+    const blogItems = document.querySelectorAll('.blog-item');
+    blogItems.forEach(item => observer.observe(item));
 
     return () => {
-      articles.forEach((article) => observer.unobserve(article));
-      if (lastArticle) {
-        lastArticleObserver.unobserve(lastArticle);
+      if (blogItems) {
+        blogItems.forEach(item => observer.unobserve(item));
       }
     };
   }, []);
@@ -92,7 +107,7 @@ const BlogSection = () => {
   return (
     <section 
       id="blog" 
-      className="py-4 bg-muted/50 relative" 
+      className="py-16 bg-gradient-to-b from-background to-muted/30"
       ref={sectionRef}
       style={{ 
         height: "100vh", 
@@ -100,92 +115,91 @@ const BlogSection = () => {
       }}
     >
       <div className='flex flex-col p-2 gap-2 h-full'>
-        <div className="text-center mb-4 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 relative">
-            Latest Insights
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary/70 rounded-full"></div>
-          </h2>
-          <p className="text-lg text-muted-foreground mt-2">
-            Expert articles and guides on retail inventory management and optimization
-          </p>
-        </div>
+        <div className="container mx-auto px-4 md:px-6 mb-8">
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">
+                Latest from Our <span className="text-primary">Blog</span>
+              </h2>
+              <p className="text-muted-foreground max-w-xl">
+                Insights, trends, and expert advice to help you optimize your inventory management
+              </p>
+            </div>
+            <Button variant="outline" className="hidden md:flex items-center gap-2 group">
+              View all articles
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
 
-        <ScrollArea className="flex-1 w-full rounded-3xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-            {blogPosts.map((post, index) => (
-              <div
-                key={index}
-                className={`blog-item animate-fade-up opacity-0 transform translate-y-10 transition-all duration-700 ${index === blogPosts.length - 1 ? 'last-blog' : ''}`}
-                style={{ 
-                  animationDelay: `${0.1 + index * 0.1}s`,
-                  transitionDelay: `${index * 0.05}s`
-                }}
-              >
-                <div className="bg-white dark:bg-gray-800 overflow-hidden rounded-xl shadow-md hover:shadow-lg border border-border group transition-all duration-300 h-full flex flex-col">
+          <ScrollArea className="h-[calc(100vh-300px)]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {blogPosts.map((post, index) => (
+                <Card 
+                  key={post.id}
+                  data-card-id={post.id}
+                  className="blog-item overflow-hidden border border-border/40 shadow-md hover:shadow-lg transition-all duration-300"
+                  style={{ 
+                    opacity: 0,
+                    transform: 'translateY(20px)',
+                    transition: 'all 0.5s ease-out',
+                    animationDelay: `${index * 150}ms`
+                  }}
+                >
                   <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={post.image} 
-                      alt={post.title} 
-                      className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-500"
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-primary/90 text-white text-xs font-medium px-2.5 py-1 rounded-full flex items-center">
-                        <Tag className="mr-1 h-3 w-3" />
-                        {post.category}
-                      </span>
+                    <div className="absolute top-3 right-3 bg-primary/90 text-primary-foreground rounded-full px-3 py-1 text-xs font-medium">
+                      {post.categories[0]}
                     </div>
                   </div>
-                  
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center text-sm text-muted-foreground mb-3">
-                      <div className="flex items-center mr-4">
-                        <Calendar className="h-3.5 w-3.5 mr-1" />
-                        {post.date}
+                  <CardHeader className="p-4 pb-2">
+                    <CardTitle className="text-xl font-bold line-clamp-2">{post.title}</CardTitle>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">
+                      <div className="flex items-center gap-1">
+                        <Calendar size={12} />
+                        <span>{post.date}</span>
                       </div>
-                      <div className="flex items-center">
-                        <Clock className="h-3.5 w-3.5 mr-1" />
-                        {post.readTime}
+                      <div className="flex items-center gap-1">
+                        <Clock size={12} />
+                        <span>{post.readTime}</span>
                       </div>
                     </div>
-                    
-                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h3>
-                    
-                    <p className="text-muted-foreground mb-4 flex-grow">
-                      {post.excerpt}
-                    </p>
-                    
-                    <Link to={`/blog/${post.id}`} className="text-primary font-medium flex items-center mt-auto hover:underline story-link">
+                  </CardHeader>
+                  <CardContent className="p-4 pt-2">
+                    <CardDescription className="line-clamp-3">{post.excerpt}</CardDescription>
+                  </CardContent>
+                  <CardFooter className="p-4 border-t border-border/50 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <User size={14} />
+                      <span className="text-xs">{post.author}</span>
+                    </div>
+                    <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 p-0">
                       Read more
-                      <ArrowRight className="ml-1 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </ScrollArea>
 
-        {/* Navigation hint that appears until all articles are seen */}
-        {!allCardsVisible && (
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center animate-bounce">
-            <p className="text-primary font-medium">Scroll to see all articles</p>
-            <div className="w-6 h-6 mx-auto mt-2 border-b-2 border-r-2 border-primary transform rotate-45"></div>
-          </div>
-        )}
+          {/* Navigation hint that appears until all articles are seen */}
+          {!allCardsVisible && (
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center animate-bounce">
+              <p className="text-primary font-medium">Scroll to see all articles</p>
+              <div className="w-6 h-6 mx-auto mt-2 border-b-2 border-r-2 border-primary transform rotate-45"></div>
+            </div>
+          )}
 
-        <div className="text-center mt-8 mb-4">
-          <Button variant="outline" size="lg" className="group">
-            View all articles
-            <BookOpen className="ml-2 h-4 w-4 group-hover:scale-110 transition-transform" />
-          </Button>
+          <div className="mt-10 flex justify-center md:hidden">
+            <Button className="w-full sm:w-auto flex items-center justify-center gap-2 group">
+              View all articles
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
         </div>
-        
-        {/* Decorative elements */}
-        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-blue-300/10 rounded-full blur-3xl z-0"></div>
-        <div className="absolute -top-20 -left-20 w-40 h-40 bg-purple-300/10 rounded-full blur-3xl z-0"></div>
       </div>
     </section>
   );
