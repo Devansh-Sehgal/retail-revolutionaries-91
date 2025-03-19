@@ -185,14 +185,6 @@ const BlogSection = () => {
             </div>
           </ScrollArea>
 
-          {/* Navigation hint that appears until all articles are seen */}
-          {!allCardsVisible && (
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center animate-bounce">
-              <p className="text-primary font-medium">Scroll to see all articles</p>
-              <div className="w-6 h-6 mx-auto mt-2 border-b-2 border-r-2 border-primary transform rotate-45"></div>
-            </div>
-          )}
-
           <div className="mt-10 flex justify-center md:hidden">
             <Button className="w-full sm:w-auto flex items-center justify-center gap-2 group">
               View all articles

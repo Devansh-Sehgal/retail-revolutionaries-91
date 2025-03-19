@@ -130,7 +130,10 @@ const HeroSection = () => {
                     isTransitioning && index === activeIndex ? 'translate-x-0 opacity-100' : 
                     isTransitioning && index === previousIndex ? 'translate-x-[-100%] opacity-0' : ''
                   }`}>
-                    <div className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+                    <div className={`space-y-6 transition-all duration-700 transform ${
+                      isTransitioning && index === activeIndex ? 'translate-x-0 opacity-100' : 
+                      'animate-fade-up'
+                    }`} style={{ animationDelay: '0.1s' }}>
                       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                         {item.title} {index === 0 && <span className="text-primary">Transform the way</span>} {index === 0 && 'you manage your inventory.'}
                       </h1>
@@ -139,10 +142,12 @@ const HeroSection = () => {
                       </p>
                     </div>
                     
-                    <div className="relative animate-fade-up rounded-2xl" style={{ animationDelay: '0.3s' }}>
+                    <div className={`relative rounded-2xl ${
+                      isTransitioning && index === activeIndex ? '' : 'animate-fade-up'
+                    }`} style={{ animationDelay: '0.3s' }}>
                       <div className={`relative rounded-2xl shadow-xl overflow-hidden p-1 transition-all duration-700 transform ${
                         isTransitioning && index === activeIndex ? 'translate-x-0 opacity-100 scale-100' : 
-                        isTransitioning && index === previousIndex ? 'translate-x-[-30px] opacity-0 scale-95' : ''
+                        isTransitioning && index === previousIndex ? 'translate-x-[-100px] opacity-0 scale-95' : ''
                       }`}>
                         <img
                           src={item.image}
