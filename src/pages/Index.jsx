@@ -10,6 +10,7 @@ import StatsSection from '../components/StatsSection';
 import AboutUsSection from '../components/AboutUsSection';
 import Footer from '../components/Footer';
 import Newsletter from '../components/Newsletter';
+import CTA from '../components/CTA';
 
 const Index = () => {
   useEffect(() => {
@@ -24,21 +25,21 @@ const Index = () => {
 
     // Add mousemove event listener for all service-card elements to handle radial gradient effect
     const cards = document.querySelectorAll('.service-card');
-    
+
     const handleMouseMove = (e, card) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       // Update the :before pseudo-element position
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
     };
-    
+
     cards.forEach(card => {
       card.addEventListener('mousemove', (e) => handleMouseMove(e, card));
     });
-    
+
     // Set up scroll animation observer
     const observer = new IntersectionObserver(
       (entries) => {
@@ -55,12 +56,12 @@ const Index = () => {
     // const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item');
     const animatedElements = document.querySelectorAll('.service-item, .solution-item, .product-item, .animate-on-scroll');
     animatedElements.forEach((el) => observer.observe(el));
-    
+
     return () => {
       cards.forEach(card => {
         card.removeEventListener('mousemove', (e) => handleMouseMove(e, card));
       });
-      
+
       // Clean up the observer
       animatedElements.forEach((el) => observer.unobserve(el));
     };
@@ -71,6 +72,7 @@ const Index = () => {
       <Navbar />
       <main className="flex-grow">
         <HeroSection />
+        <CTA />
         <StatsSection />
         <AboutUsSection />
         <ServicesSection />
