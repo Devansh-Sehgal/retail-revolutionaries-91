@@ -32,17 +32,26 @@ const HeroSection = () => {
   const bgRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [previousIndex, setPreviousIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
 
     // Auto-rotate carousel
     const interval = setInterval(() => {
+      setPreviousIndex(activeIndex);
+      setIsTransitioning(true);
       setActiveIndex(prevIndex => (prevIndex + 1) % carouselContent.length);
+      
+      // Reset transition state after animation completes
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 700);
     }, 5000); // Change content every 5 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [activeIndex]);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -113,12 +122,17 @@ const HeroSection = () => {
               {carouselContent.map((item, index) => (
                 <CarouselItem 
                   key={index} 
-                  className={`transition-all duration-700 ${index === activeIndex ? 'opacity-100 block' : 'opacity-0 hidden'}`}
+                  className={`transition-all duration-700 ${
+                    index === activeIndex ? 'block' : 'hidden'
+                  }`}
                 >
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-all duration-700 transform ${
+                    isTransitioning && index === activeIndex ? 'translate-x-0 opacity-100' : 
+                    isTransitioning && index === previousIndex ? 'translate-x-[-100%] opacity-0' : ''
+                  }`}>
                     <div className="space-y-6 animate-fade-up" style={{ animationDelay: '0.1s' }}>
                       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                        {item.title} <span className="text-primary">Transform the way</span> you manage your inventory.
+                        {item.title} {index === 0 && <span className="text-primary">Transform the way</span>} {index === 0 && 'you manage your inventory.'}
                       </h1>
                       <p className="text-lg md:text-xl text-muted-foreground max-w-xl">
                         {item.subtitle}
@@ -126,7 +140,10 @@ const HeroSection = () => {
                     </div>
                     
                     <div className="relative animate-fade-up rounded-2xl" style={{ animationDelay: '0.3s' }}>
-                      <div className="relative rounded-2xl shadow-xl overflow-hidden p-1 transition-transform duration-300">
+                      <div className={`relative rounded-2xl shadow-xl overflow-hidden p-1 transition-all duration-700 transform ${
+                        isTransitioning && index === activeIndex ? 'translate-x-0 opacity-100 scale-100' : 
+                        isTransitioning && index === previousIndex ? 'translate-x-[-30px] opacity-0 scale-95' : ''
+                      }`}>
                         <img
                           src={item.image}
                           alt={`Banner ${index + 1}`}
@@ -147,7 +164,14 @@ const HeroSection = () => {
             {carouselContent.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setActiveIndex(index)}
+                onClick={() => {
+                  setPreviousIndex(activeIndex);
+                  setIsTransitioning(true);
+                  setActiveIndex(index);
+                  setTimeout(() => {
+                    setIsTransitioning(false);
+                  }, 700);
+                }}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex
                   ? 'bg-primary w-6'
                   : 'bg-gray-300 hover:bg-gray-400'
