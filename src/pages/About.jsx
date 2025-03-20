@@ -1,4 +1,3 @@
-
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -18,6 +17,9 @@ const About = () => {
         // Scroll to top when about page loads
         window.scrollTo(0, 0);
 
+        // Preload critical images and set a timeout to ensure page becomes visible
+        setTimeout(() => setLoading(false), 1000);
+
         // Initialize animation observers
         const observer = new IntersectionObserver(
             (entries) => {
@@ -33,37 +35,6 @@ const About = () => {
         // Observe all elements with animation classes
         const animatedElements = document.querySelectorAll('.animate-on-scroll');
         animatedElements.forEach((el) => observer.observe(el));
-
-        // Preload critical images and simulate completion
-        const preloadImages = () => {
-            // Preload hero images
-            const imageUrls = ['aboutus1.jpg', 'aboutus2.jpg'];
-            let loadedCount = 0;
-            
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-                img.onload = () => {
-                    loadedCount++;
-                    if (loadedCount === imageUrls.length) {
-                        // All critical images loaded
-                        setLoading(false);
-                    }
-                };
-                img.onerror = () => {
-                    loadedCount++;
-                    if (loadedCount === imageUrls.length) {
-                        // Consider loaded even on error
-                        setLoading(false);
-                    }
-                };
-            });
-            
-            // If images take too long, show content anyway
-            setTimeout(() => setLoading(false), 2000);
-        };
-        
-        preloadImages();
 
         return () => {
             animatedElements.forEach((el) => observer.unobserve(el));
