@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -78,7 +77,7 @@ const About = () => {
                             </p>
                             <div className="relative h-64 md:h-96 rounded-xl overflow-hidden shadow-xl animate-on-scroll opacity-0 transform -translate-y-10 transition-all duration-700 delay-200">
                                 <img
-                                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+                                    src="aboutus1.jpg"
                                     alt="Our Team"
                                     className="w-full h-full object-cover"
                                 />
@@ -148,7 +147,7 @@ const About = () => {
                                 <div className="relative">
                                     <div className="bg-gradient-to-tr from-primary/10 to-blue-300/20 rounded-2xl p-1">
                                         <img
-                                            src="https://images.unsplash.com/photo-1573167507387-6b4b98cb7c13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+                                            src="aboutus2.jpg"
                                             alt="Our Approach"
                                             className="rounded-2xl w-full h-auto object-cover shadow-lg"
                                         />
