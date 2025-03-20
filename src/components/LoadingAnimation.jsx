@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const LoadingAnimation = () => {
@@ -86,8 +87,8 @@ const LoadingAnimation = () => {
         </div>
       </div>
 
-      {/* Add keyframes animations to your global CSS */}
-      <style jsx global>{`
+      <style jsx>
+        {`
         @keyframes spin {
           0% { transform: translate(-50%, -50%) rotate(0deg); }
           100% { transform: translate(-50%, -50%) rotate(360deg); }
@@ -102,7 +103,8 @@ const LoadingAnimation = () => {
           0% { transform: translate(-50%, -50%) rotate(0deg); }
           100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-      `}</style>
+      `}
+      </style>
     </div>
   );
 };

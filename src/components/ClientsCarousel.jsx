@@ -25,41 +25,55 @@ const ClientsCarousel = () => {
     
     if (!carousel) return;
     
-    // Function to clone and append items for infinite loop
-    const setupInfiniteCarousel = () => {
-      const content = carousel.querySelector('.embla__container');
-      const items = carousel.querySelectorAll('.embla__slide');
+    let animationFrameId;
+    let scrollPosition = 0;
+    const scrollSpeed = 1; // Pixels per frame
+    
+    const animate = () => {
+      if (!carousel) return;
       
-      // Clone items for the loop effect
-      items.forEach(item => {
-        const clone = item.cloneNode(true);
-        content.appendChild(clone);
-      });
-    };
-    
-    // Auto play carousel
-    let interval;
-    const startAutoplay = () => {
-      interval = setInterval(() => {
-        const emblaApi = carousel.__embla;
-        if (emblaApi) {
-          // If at the end, quickly reset to start without animation
-          if (!emblaApi.canScrollNext()) {
-            emblaApi.scrollTo(0, true);
-          }
-          emblaApi.scrollNext();
+      const emblaApi = carousel.__embla;
+      if (!emblaApi) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+      
+      // Get container width and check if we need to reset position
+      const containerWidth = emblaApi.containerRect().width;
+      const scrollSnaps = emblaApi.scrollSnapList();
+      const maxScroll = emblaApi.scrollProgress() * emblaApi.scrollSnapList().length;
+      
+      // Smoothly scroll
+      scrollPosition += scrollSpeed;
+      
+      // Reset position when we've scrolled past all items
+      if (scrollPosition >= scrollSnaps.length * 100) {
+        scrollPosition = 0;
+        emblaApi.scrollTo(0, true); // Jump to start without animation
+      } else {
+        // Convert scroll position to a progress value between 0 and 1
+        const scrollProgress = (scrollPosition % 100) / 100;
+        const targetIndex = Math.floor(scrollPosition / 100);
+        
+        // Calculate exact scroll location
+        if (targetIndex < scrollSnaps.length - 1) {
+          const distance = scrollSnaps[targetIndex + 1] - scrollSnaps[targetIndex];
+          const location = scrollSnaps[targetIndex] + (distance * scrollProgress);
+          emblaApi.scrollTo(location);
         }
-      }, 3000);
+      }
+      
+      animationFrameId = requestAnimationFrame(animate);
     };
     
-    // Setup after a slight delay to ensure carousel is initialized
-    setTimeout(() => {
-      setupInfiniteCarousel();
-      startAutoplay();
+    // Start animation after a short delay to ensure carousel is fully initialized
+    const timeoutId = setTimeout(() => {
+      animate();
     }, 100);
     
     return () => {
-      clearInterval(interval);
+      cancelAnimationFrame(animationFrameId);
+      clearTimeout(timeoutId);
     };
   }, []);
 
@@ -79,7 +93,7 @@ const ClientsCarousel = () => {
           opts={{
             align: "start",
             loop: true,
-            skipSnaps: true,
+            skipSnaps: false,
             dragFree: true,
           }}
         >
@@ -91,6 +105,9 @@ const ClientsCarousel = () => {
                     src={client.logo} 
                     alt={client.name} 
                     className="max-h-full max-w-full object-contain p-2"
+                    width="100"
+                    height="100"
+                    loading="lazy"
                   />
                 </div>
               </CarouselItem>
