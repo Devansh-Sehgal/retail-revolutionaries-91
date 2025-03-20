@@ -1,19 +1,13 @@
-
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ClientsCarousel from '../components/ClientsCarousel';
 import { Users, Award, Clock, Target, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
-import LoadingAnimation from '../components/LoadingAnimation';
-
-// Lazy load the CTA component
-const CTA = lazy(() => import('../components/CTA'));
+import CTA from '../components/CTA';
 
 const About = () => {
-    const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         // Scroll to top when about page loads
         window.scrollTo(0, 0);
@@ -33,37 +27,6 @@ const About = () => {
         // Observe all elements with animation classes
         const animatedElements = document.querySelectorAll('.animate-on-scroll');
         animatedElements.forEach((el) => observer.observe(el));
-
-        // Preload critical images and simulate completion
-        const preloadImages = () => {
-            // Preload hero images
-            const imageUrls = ['aboutus1.jpg', 'aboutus2.jpg'];
-            let loadedCount = 0;
-            
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-                img.onload = () => {
-                    loadedCount++;
-                    if (loadedCount === imageUrls.length) {
-                        // All critical images loaded
-                        setLoading(false);
-                    }
-                };
-                img.onerror = () => {
-                    loadedCount++;
-                    if (loadedCount === imageUrls.length) {
-                        // Consider loaded even on error
-                        setLoading(false);
-                    }
-                };
-            });
-            
-            // If images take too long, show content anyway
-            setTimeout(() => setLoading(false), 2000);
-        };
-        
-        preloadImages();
 
         return () => {
             animatedElements.forEach((el) => observer.unobserve(el));
@@ -99,10 +62,6 @@ const About = () => {
         }
     ];
 
-    if (loading) {
-        return <LoadingAnimation />;
-    }
-
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
@@ -122,9 +81,6 @@ const About = () => {
                                     src="aboutus1.jpg"
                                     alt="Our Team"
                                     className="w-full h-full object-cover"
-                                    width="800"
-                                    height="400"
-                                    loading="eager"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                                 <div className="absolute bottom-6 w-full text-white px-6">
@@ -198,9 +154,6 @@ const About = () => {
                                             src="aboutus2.jpg"
                                             alt="Our Approach"
                                             className="rounded-2xl w-full h-auto object-cover shadow-lg"
-                                            width="600"
-                                            height="400"
-                                            loading="lazy"
                                         />
                                     </div>
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/30 rounded-full blur-xl -z-10"></div>
@@ -298,9 +251,7 @@ const About = () => {
                 </section>
 
                 {/* CTA Section */}
-                <Suspense fallback={<div className="py-16 bg-muted/10 text-center">Loading...</div>}>
-                    <CTA />
-                </Suspense>
+                <CTA />
             </main>
             <Footer />
         </div>
