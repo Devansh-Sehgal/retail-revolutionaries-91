@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -8,6 +8,8 @@ import {
 
 const ClientsCarousel = () => {
   const carouselRef = useRef(null);
+  const animationRef = useRef(null);
+  const [position, setPosition] = useState(0);
   
   // Client logos from public/Clients directory
   const clients = [
@@ -22,44 +24,59 @@ const ClientsCarousel = () => {
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    
     if (!carousel) return;
     
-    // Function to clone and append items for infinite loop
-    const setupInfiniteCarousel = () => {
-      const content = carousel.querySelector('.embla__container');
-      const items = carousel.querySelectorAll('.embla__slide');
+    const contentEl = carousel.querySelector('.embla__container');
+    if (!contentEl) return;
+    
+    // Setup: Clone items and append to make infinite loop
+    const setupCarousel = () => {
+      const items = Array.from(contentEl.children);
       
-      // Clone items for the loop effect
+      // Clone all items for smooth continuous loop
       items.forEach(item => {
         const clone = item.cloneNode(true);
-        content.appendChild(clone);
+        contentEl.appendChild(clone);
       });
+      
+      // Set initial position
+      contentEl.style.transform = `translateX(0px)`;
+      contentEl.style.transition = 'transform 0.5s ease-out';
     };
     
-    // Auto play carousel
-    let interval;
-    const startAutoplay = () => {
-      interval = setInterval(() => {
-        const emblaApi = carousel.__embla;
-        if (emblaApi) {
-          // If at the end, quickly reset to start without animation
-          if (!emblaApi.canScrollNext()) {
-            emblaApi.scrollTo(0, true);
-          }
-          emblaApi.scrollNext();
+    // Animation function for continuous movement
+    const animate = () => {
+      const contentWidth = contentEl.scrollWidth;
+      const containerWidth = carousel.offsetWidth;
+      const itemWidth = contentWidth / (clients.length * 2); // Total items (original + clones)
+      
+      // Move content continuously
+      setPosition(prev => {
+        // When we've moved one item width, reset to maintain illusion of infinity
+        let newPos = prev - 1; // Speed of movement (adjust for faster/slower)
+        
+        // If we've moved beyond the original items set, reset to beginning
+        if (Math.abs(newPos) >= contentWidth / 2) {
+          newPos = 0;
         }
-      }, 3000);
+        
+        // Apply the transform
+        contentEl.style.transform = `translateX(${newPos}px)`;
+        return newPos;
+      });
+      
+      animationRef.current = requestAnimationFrame(animate);
     };
     
-    // Setup after a slight delay to ensure carousel is initialized
-    setTimeout(() => {
-      setupInfiniteCarousel();
-      startAutoplay();
-    }, 100);
+    // Initialize and start animation
+    setupCarousel();
+    animationRef.current = requestAnimationFrame(animate);
     
+    // Cleanup
     return () => {
-      clearInterval(interval);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
     };
   }, []);
 
@@ -73,30 +90,28 @@ const ClientsCarousel = () => {
           </span>
         </h2>
         
-        <Carousel 
+        <div 
           ref={carouselRef}
-          className="w-full"
-          opts={{
-            align: "start",
-            loop: true,
-            skipSnaps: true,
-            dragFree: true,
-          }}
+          className="w-full overflow-hidden"
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <div className="embla__container flex">
             {clients.map((client, index) => (
-              <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6">
+              <div 
+                key={index} 
+                className="pl-4 flex-shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6"
+              >
                 <div className="relative p-1 h-24 md:h-28 flex items-center justify-center bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1">
                   <img 
                     src={client.logo} 
                     alt={client.name} 
                     className="max-h-full max-w-full object-contain p-2"
+                    loading="eager"
                   />
                 </div>
-              </CarouselItem>
+              </div>
             ))}
-          </CarouselContent>
-        </Carousel>
+          </div>
+        </div>
       </div>
     </div>
   );
