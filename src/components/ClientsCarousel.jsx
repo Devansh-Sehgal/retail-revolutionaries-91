@@ -5,7 +5,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useCallback } from 'react';
 
 const ClientsCarousel = () => {
   const carouselRef = useRef(null);
@@ -21,49 +20,62 @@ const ClientsCarousel = () => {
     { name: "Vandana", logo: "/Clients/vandana.JPG" },
   ];
 
-  const scrollCarousel = useCallback(() => {
-    const emblaApi = carouselRef.current?.__embla;
-    
-    if (!emblaApi) return;
-    
-    // Move forward by a small amount
-    const scrollProgress = emblaApi.scrollProgress();
-    
-    // When we reach the end, loop back to the beginning
-    if (scrollProgress >= 0.99) {
-      emblaApi.scrollTo(0);
-    } else {
-      // Move slightly forward (adjust the 0.001 value to control speed)
-      const nextScrollSnap = emblaApi.scrollProgress() + 0.0005;
-      emblaApi.scrollTo(nextScrollSnap);
-    }
-  }, []);
-
   useEffect(() => {
-    // Start automatic scrolling with requestAnimationFrame for smooth animation
-    let animationId;
-    let lastTime = 0;
+    const carousel = carouselRef.current;
     
-    const animate = (time) => {
-      // Throttle the scrolling to avoid too frequent updates
-      if (time - lastTime > 16) { // Approx 60fps
-        scrollCarousel();
-        lastTime = time;
+    if (!carousel) return;
+    
+    let animationFrameId;
+    let scrollPosition = 0;
+    const scrollSpeed = 1; // Pixels per frame
+    
+    const animate = () => {
+      if (!carousel) return;
+      
+      const emblaApi = carousel.__embla;
+      if (!emblaApi) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
       }
       
-      animationId = requestAnimationFrame(animate);
+      // Get container width and check if we need to reset position
+      const containerWidth = emblaApi.containerRect().width;
+      const scrollSnaps = emblaApi.scrollSnapList();
+      const maxScroll = emblaApi.scrollProgress() * emblaApi.scrollSnapList().length;
+      
+      // Smoothly scroll
+      scrollPosition += scrollSpeed;
+      
+      // Reset position when we've scrolled past all items
+      if (scrollPosition >= scrollSnaps.length * 100) {
+        scrollPosition = 0;
+        emblaApi.scrollTo(0, true); // Jump to start without animation
+      } else {
+        // Convert scroll position to a progress value between 0 and 1
+        const scrollProgress = (scrollPosition % 100) / 100;
+        const targetIndex = Math.floor(scrollPosition / 100);
+        
+        // Calculate exact scroll location
+        if (targetIndex < scrollSnaps.length - 1) {
+          const distance = scrollSnaps[targetIndex + 1] - scrollSnaps[targetIndex];
+          const location = scrollSnaps[targetIndex] + (distance * scrollProgress);
+          emblaApi.scrollTo(location);
+        }
+      }
+      
+      animationFrameId = requestAnimationFrame(animate);
     };
     
-    // Start the animation loop after a short delay
+    // Start animation after a short delay to ensure carousel is fully initialized
     const timeoutId = setTimeout(() => {
-      animationId = requestAnimationFrame(animate);
-    }, 1000);
+      animate();
+    }, 100);
     
     return () => {
-      cancelAnimationFrame(animationId);
+      cancelAnimationFrame(animationFrameId);
       clearTimeout(timeoutId);
     };
-  }, [scrollCarousel]);
+  }, []);
 
   return (
     <div className="w-full py-10 bg-gradient-to-r from-muted/20 via-white to-muted/20">
@@ -81,6 +93,7 @@ const ClientsCarousel = () => {
           opts={{
             align: "start",
             loop: true,
+            skipSnaps: false,
             dragFree: true,
           }}
         >
